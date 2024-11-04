@@ -1,0 +1,50 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-family: "Nunito", sans-serif;
+  font-weight: 400;
+  line-height: 1;
+  color: #fff;
+}
+
+.container {
+  max-width: 130rem;
+  margin: 0 auto;
+}
+
+.heading-primary {
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+  font-size: 5.2rem;
+  margin-bottom: 3.2rem;
+  color: #ebedf9;
+}
+
+.btn,
+.btn:link,
+.btn:visited {
+  padding: 1.2rem 1.6rem;
+  background-color: #364fc7;
+  color: white;
+  font-family: inherit;
+  font-size: 1.8em;
+  font-weight: 500;
+  border-radius: 6px;
+  box-shadow: 0 0.6rem 1.2rem rgba(0, 0, 0, 0.1);
+
+  transition: all 0.3s;
+}
+
+.btn:active,
+.btn:hover {
+  background-color: #4a61cd;
+}

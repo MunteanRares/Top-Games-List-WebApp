@@ -1,0 +1,57 @@
+/\*
+
+--- 01 TYPOGRAPHY
+
+- Font Size (px)
+  10 / 12 / 14 / 16 / 18 / 20 / 24 / 30 / 36 / 44 / 52 / 62 / 74 / 86 / 98
+
+- Font Weights:
+  Default: 400
+  Medium 500
+  Semibold 600
+  Bold 700
+
+- Line Heights
+  Default: 1
+  line-height: 1.2;
+
+- Letter Spacing
+  -0.5px
+  0.3px
+
+--- 02 COLORS
+
+-Shades:
+
+-Primary:
+#364fc7
+
+-Tints:
+#4a61cd
+#ebedf9
+
+-Accents:
+#ce3f3f
+-Grays:
+#444
+
+--- 03 IMAGES
+
+-Sources: .www.unsplash.com (full free)
+.UI Faces (for faces) - meh
+
+--- 04 ICONS
+-sources
+
+--- 05 SHADOWS
+box-shadow: 0 2.4rem 4.8rem rgba(0, 0, 0, 0.1);
+
+--- 06 BORDER RADIUS
+Default: 6px
+
+--- 07 WHITE SPACE
+
+-Spacing System (px)
+2 / 4 / 8 / 12 / 16 / 24 / 32 / 48 / 64 / 80 / 96 / 128
+
+\*/

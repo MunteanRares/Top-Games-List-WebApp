@@ -1,0 +1,156 @@
+/*******************/
+/* SECTION HERO */
+/*******************/
+.section-hero {
+  padding: 8rem 4.8rem;
+  background-image: linear-gradient(
+      to right,
+      rgba(27, 27, 27, 0.6),
+      rgba(46, 46, 46, 0.1)
+    ),
+    url(../static/img/glenn-carstens-peters-0woyPEJQ7jc-unsplash.jpg);
+  background-size: 250rem;
+  background-repeat: no-repeat;
+  height: 70rem;
+  align-content: center;
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 5fr 5fr;
+}
+
+.hero-description {
+  width: 90%;
+  font-weight: 600;
+  font-size: 2.2rem;
+  margin-bottom: 4.8rem;
+  line-height: 1.35;
+  letter-spacing: 0.3px;
+  color: #ebedf9;
+}
+
+/*******************/
+/* SECTION GAMES */
+/*******************/
+.section-game-list {
+  padding: 9.6rem;
+}
+
+.game-list-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4.8rem;
+}
+
+.game-card {
+  width: 35rem;
+  height: 50rem;
+  overflow: hidden;
+  box-shadow: 0 0 3.2rem rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  position: relative;
+
+  z-index: 1;
+}
+
+.game-content {
+  width: 100%;
+  height: 100%;
+  padding: 0 2rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* display: none;  */
+
+  background-color: #1b1b1b6c;
+  transition: 0.4s;
+  opacity: 0;
+  z-index: -1;
+}
+
+.game-card:hover .game-content {
+  backdrop-filter: blur(5px);
+  opacity: 1;
+  filter: blur(0px);
+  z-index: 2;
+}
+
+.game-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* overflow: hidden; */
+}
+
+.game-title {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 1.2rem;
+}
+
+.game-title span {
+  font-weight: 400;
+  font-size: 1.8rem;
+}
+
+.game-ratings {
+  list-style: none;
+  display: flex;
+  gap: 2.4rem;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2.4rem;
+  font-size: 1.6rem;
+}
+
+.game-review {
+  text-align: center;
+  margin-bottom: 3.2rem;
+  line-height: 1.2;
+  font-size: 1.6rem;
+  font-style: italic;
+}
+
+.game-description {
+  /* text-align: center; */
+  padding-left: 4%;
+  margin-bottom: 3.2rem;
+  font-size: 1.6rem;
+  line-height: 1.5;
+  letter-spacing: 0.3px;
+}
+
+.game-buttons {
+  display: flex;
+  gap: 2.4rem;
+  justify-content: center;
+}
+
+.update-button,
+.delete-button {
+  text-decoration: none;
+}
+
+.delete-button:link,
+.delete-button:visited {
+  padding: 1.2rem 1.6rem;
+  background-color: #ce3f3f65;
+  color: white;
+  font-family: inherit;
+  font-size: 1.8em;
+  font-weight: 500;
+  border-radius: 6px;
+  box-shadow: 0 0.6rem 1.2rem rgba(0, 0, 0, 0.1);
+
+  transition: all 0.3s;
+}
+
+.delete-button:hover,
+.delete-button:active {
+  background-color: #d45555ce;
+}
