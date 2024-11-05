@@ -32,41 +32,43 @@
 
     <section class="section-game-list">
       <div class="container game-list-grid">
+        {% if not all_games == []: %} {% for game in all_games: %}
         <div class="game-card">
           <div class="game-image">
-            <img src="../static/img/Euro_Truck_Simulator_2_cover.jpg" alt="" />
+            <img src="{{ game['img_url'] }}" alt="" />
           </div>
 
           <div class="game-content">
             <h2 class="game-title">
-              Euro Truck Simulator 2 <span class="game-year">(2014)</span>
+              {{ game['title']}}
+              <span class="game-year">({{ game['year'] }})</span>
             </h2>
             <ul class="game-ratings">
               <li>
-                <span>9.3</span>
+                <span>{{ game['rating'] }} <span class="emoji">⭐</span></span>
               </li>
             </ul>
             <div class="game-review">
-              <blockquote>
-                "I let my girlfriend have a try at this game, she started
-                growing chest hair."
-              </blockquote>
+              <blockquote>"{{ game['review'] }}"</blockquote>
             </div>
             <div class="game-description">
-              <p>
-                Travel across Europe as king of the road, a trucker who delivers
-                important cargo across impressive distances! With dozens of
-                cities to explore, your endurance, skill and speed will all be
-                pushed to their limits. If you've got what it takes to be part
-                of an elite trucking force, get behind the wheel and prove it!
-              </p>
+              <p>{{ game['description'] }}</p>
             </div>
             <div class="game-buttons">
-              <a class="btn update-button" href="">Update</a>
-              <a class="delete-button" href="">Delete</a>
+              <a
+                class="btn update-button"
+                href="{{ url_for('update', id=game.id) }}"
+                >Update</a
+              >
+              <a
+                class="delete-button"
+                href="{{ url_for('delete', id=game.id) }}"
+                >Delete</a
+              >
             </div>
           </div>
         </div>
+        {% endfor %} {% endif %}
       </div>
     </section>
   </body>

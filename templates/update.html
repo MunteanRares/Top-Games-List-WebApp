@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title></title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="../static/general.css" />
+    <link rel="stylesheet" href="../static/update.css" />
+  </head>
+  <body>
+    <section class="section-update">
+      <div class="container update-grid">
+        <div class="update-content">
+          <h1 class="heading-primary">Customize Your Thoughts on {{ game_to_update["title"] }}</h1>
+          <p class="update-description">
+            Refine your thoughts on {{game_to_update["title"]}}. Update your review, adjust your
+            rating, and capture how your perspective has evolved.
+          </p>
+        </div>
+
+        <div class="update-form-container">
+          <form
+            class="update-form"
+            action="{{ url_for('update') }}"
+            novalidate
+            method="POST"
+          >
+            {{ form.csrf_token }}
+            <div class="update-rating">
+              {% if not form.rating.errors: %}
+                {{ form.rating.label }} {{ form.rating(size=30, class_="text-input") }}
+              {% endif %}
+
+              {% if form.rating.errors: %}
+                {% for error in form.rating.errors: %}
+                  {{ form.rating.label }} {{ form.rating(size=30, class_="text-input input-error") }}
+                    <span class="error">{{ error }}</span>
+                {% endfor %}
+              {%endif%}
+            </div>
+
+            <div class="update-review">
+              {%if form.review.errors:%} {{ form.review.label }} {{
+              form.review(size=30 , class_="text-input input-error") }}
+              {%endif%} {%if not form.review.errors:%} {{ form.review.label }}
+              {{ form.review(size=30 , class_="text-input") }} {%endif%}
+            </div>
+
+            {{ form.submit(class_="submit-btn text-input") }}
+            <input hidden="hidden" type="text" value="{{ game_to_update.id }}" name="id">
+          </form>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>

@@ -105,7 +105,10 @@
   align-items: center;
   justify-content: center;
   margin-bottom: 2.4rem;
-  font-size: 1.6rem;
+  font-weight: 800;
+  font-size: 1.8rem;
+  color: #ffd43b;
+  text-align: center;
 }
 
 .game-review {

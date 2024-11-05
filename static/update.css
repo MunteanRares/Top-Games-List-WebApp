@@ -1,0 +1,97 @@
+.section-update {
+  padding: 9.6rem 4.8rem;
+  height: 100vh;
+  background-image: linear-gradient(to right, #ebedf9, #fff);
+  display: flex;
+  justify-content: center;
+}
+
+.update-grid {
+  display: grid;
+  grid-template-columns: 4fr 6fr;
+  justify-content: center;
+  align-content: center;
+}
+
+.update-form-container {
+  height: 100%;
+}
+
+.update-content {
+  height: 100%;
+}
+
+.heading-primary {
+  color: #0b1028;
+}
+
+.update-description {
+  color: #444;
+  font-weight: 600;
+  font-size: 2.2rem;
+  margin-bottom: 4.8rem;
+  line-height: 1.35;
+  letter-spacing: 0.3px;
+}
+
+.update-rating,
+.update-review {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.update-form label {
+  color: #444;
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+.text-input {
+  font-family: "Nunito", sans-serif;
+  font-size: 1.6rem;
+  font-weight: 500;
+  border: none;
+  border-radius: 6px;
+  box-shadow: 0 0.4rem 0.8rem rgba(0, 0, 0, 0.1);
+  padding: 0.8rem 1.2rem;
+}
+
+.update-form input:focus {
+  outline: none;
+  box-shadow: 0 0rem 0.2rem 0.2rem #4a62cd57;
+}
+
+.update-form {
+  display: flex;
+  gap: 2.4rem;
+  justify-self: center;
+  width: 50%;
+  flex-direction: column;
+}
+
+.input-error {
+  border: 1px solid #e03131;
+}
+
+.error {
+  color: #e03131;
+  margin-left: 2%;
+}
+
+.submit-btn {
+  border: none;
+  background-color: #364fc7;
+  color: #ebedf9;
+  display: inline-block;
+  border-radius: 6px;
+  width: 30%;
+  margin-top: 4rem;
+
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+.submit-btn:hover {
+  background-color: #4a61cd;
+}
