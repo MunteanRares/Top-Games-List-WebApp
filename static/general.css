@@ -34,6 +34,7 @@ body {
 .btn:visited {
   padding: 1.2rem 1.6rem;
   background-color: #364fc7;
+  text-decoration: none;
   color: white;
   font-family: inherit;
   font-size: 1.8em;

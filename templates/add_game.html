@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Add Game</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../static/general.css">
+    <link rel="stylesheet" href="../static/update.css">
+    
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
+      rel="stylesheet"
+    />
+
+  </head>
+  <body>
+    <section class="section-game">
+      <div class="container update-grid game-container">
+        <div class="update-content">
+          <h1 class="heading-primary add-game-primary">Add a New Game to Your Collection</h1>
+          <P class="update-description">Ready to level up your list? Share your latest discovery or all-time favorite! Just fill in the game name, and let the world know why it deserves a spot on your list.</P>
+        </div>
+
+
+        <div class="update-form-container">
+          <form action="{{ url_for('add_game') }}" novalidate class="update-form game-form" method="POST">
+            {{ form.csrf_token }}
+            <div class="add-game-form">
+              {% if form.game_name.errors: %}
+                {{ form.game_name.label }}
+                {{ form.game_name(size=30, class_="text-input input-error") }}
+                {% for err in form.game_name.errors: %}
+                  <span class="error">{{ err }}</span>
+                {% endfor %}
+
+              {% else %}
+                {{ form.game_name.label }}
+                {{ form.game_name(size=40, class_="text-input") }}
+              {% endif %}
+
+              {{ form.submit(class_="text-input add-game-btn") }}
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-search-list">
+      <div class="list-container">
+        {% if game_results: %}
+          <ul class="search-list">
+            {% for game in game_results: %}
+              <li class="list-item">
+                  {% if game["background_image"] == None: %}
+                    <span class="not-found">Image Not Found.</span>
+                  {% elif game["background_image"] != None: %}
+                    <img class="img-search" src="{{ game['background_image'] }}" alt="">
+                  {% endif %}
+                  <div class="game-details">
+                    <a class="search-item" href="{{ url_for('get_game', id=game['id'], name=game['name']) }}">{{ game["name"] }}</a>
+
+                    <div class="tags">
+                      {% if game["platforms"] and game["stores"] != None: %}
+                      <div class="platform-tag">
+                        {% for platform in game["platforms"] %}
+                          <span class="tag">{{ platform["platform"]["name"] }}</span>
+                        {% endfor %}
+                      </div>
+
+                      <div class="store-tag">
+                        {% for store in game["stores"] %}
+                          <span class="tag tag--blue">{{ store["store"]["name"] }}</span>
+                        {% endfor %}
+                      </div>             
+                      {% else: %}
+                        <span class="tag">Unknown</span>
+                      {% endif %}
+                    </div>
+                  </div>
+              </li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+      </div>
+    </section>
+  </body>
+</html>
