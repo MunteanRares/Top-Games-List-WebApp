@@ -82,6 +82,17 @@
   z-index: -1;
 }
 
+.rank {
+  display: block;
+  position: absolute;
+  top: 50%;
+  right: 50%;
+  transform: translate(50%, -50%);
+
+  font-size: 12.8rem;
+  font-weight: 800;
+}
+
 .game-card:hover .game-content {
   backdrop-filter: blur(5px);
   opacity: 1;
@@ -89,12 +100,16 @@
   z-index: 2;
 }
 
+
 .game-image img {
   width: 100%;
   object-fit: cover;
   overflow: hidden;
   display: block;
+  position: relative;
 }
+
+
 
 .game-title {
   text-align: center;

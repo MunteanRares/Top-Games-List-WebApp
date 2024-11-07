@@ -44,6 +44,7 @@ class Game(db.Model):
     review: Mapped[str]
     description: Mapped[str]
     img_url: Mapped[str]
+    ranking: Mapped[int] = mapped_column(nullable=True)
 ### Create to database.
 with app.app_context():
     db.create_all()
@@ -126,7 +127,9 @@ new_game = Game(
 ###########################
 @app.route('/')
 def home():
-    all_games = db.session.query(Game).all()
+    all_games = db.session.query(Game).order_by(Game.rating).all()
+    for i in range(len(all_games)):
+        all_games[i].ranking = len(all_games) - i
     return render_template("index.html", all_games=all_games)
 
 
@@ -195,7 +198,7 @@ def get_game():
         title=game_name,
         year=release_date,
         description=game_description,
-        img_url=img_background
+        img_url=img_background,
     )
 
     with app.app_context():
@@ -203,6 +206,7 @@ def get_game():
         db.session.commit()
         db.session.refresh(game)
     return redirect(url_for('update', id=game.id))
+
 
 ###########################
 # RUN AND DEBUG SERVER
