@@ -16,8 +16,22 @@
 
     <link rel="stylesheet" href="../static/general.css" />
     <link rel="stylesheet" href="../static/update.css" />
+    <link rel="stylesheet" href="../static/header.css">
   </head>
   <body>
+
+    <section class="section-header">
+      <div class="header-container">
+        <a class="back-button-anchor" href="">
+          <div class="back-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-left"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            <a class="home-btn" href="{{ url_for('home') }}">Home</a>
+          </div>
+        </a>
+      </div>
+    </section>
+
+
     <section class="section-update">
       <div class="container update-grid">
         <div class="update-content">
@@ -27,6 +41,8 @@
             rating, and capture how your perspective has evolved.
           </p>
         </div>
+
+
 
         <div class="update-form-container">
           <form
@@ -57,7 +73,7 @@
             </div>
 
             {{ form.submit(class_="submit-btn text-input") }}
-            <input hidden="hidden" type="text" value="{{ game_to_update.id }}" name="id">
+            <input type="hidden" value="{{ game_to_update.id }}" name="id">
           </form>
         </div>
       </div>

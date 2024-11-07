@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="../static/general.css">
     <link rel="stylesheet" href="../static/update.css">
-    
+    <link rel="stylesheet" href="../static/header.css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -20,6 +20,19 @@
 
   </head>
   <body>
+
+    <section class="section-header">
+      <div class="header-container">
+        <a class="back-button-anchor" href="">
+          <div class="back-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-left"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            <a class="home-btn" href="{{ url_for('home') }}">Home</a>
+          </div>
+        </a>
+      </div>
+    </section>
+
+
     <section class="section-game">
       <div class="container update-grid game-container">
         <div class="update-content">
@@ -44,7 +57,7 @@
                 {{ form.game_name(size=40, class_="text-input") }}
               {% endif %}
 
-              {{ form.submit(class_="text-input add-game-btn") }}
+              {{ form.submit(class_="add-input add-game-btn") }}
             </div>
           </form>
         </div>

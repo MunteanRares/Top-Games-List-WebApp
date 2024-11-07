@@ -134,11 +134,13 @@ def home():
 def update():
     form = UpdateForm()
     game_id = request.args.get("id")
-    game_to_update = db.session.get(Game, game_id)
 
     if form.validate_on_submit():
         validate_update()
         return redirect(location=url_for('home'))
+
+    game_id = request.form.get("id") or game_id
+    game_to_update = db.session.get(Game, game_id)
     return render_template("update.html", form=form, game_to_update=game_to_update)
 
 
@@ -180,6 +182,12 @@ def get_game():
     game_description = cut_paragraph(game_data["description_raw"])
     release_date = get_year(game_data["released"])
     img_background = game_data["background_image"]
+
+    with app.app_context():
+        existing_game = Game.query.filter_by(title=game_name).first()
+
+        if existing_game:
+            return redirect(url_for("update", id=existing_game.id))
 
     game = Game(
         rating=0,

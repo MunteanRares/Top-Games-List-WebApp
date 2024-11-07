@@ -3,7 +3,7 @@
 /*********************/
 .section-update {
   padding: 9.6rem 4.8rem;
-  height: 100vh;
+  /* height: 100vh; */
   background-image: linear-gradient(to right, #ebedf9, #fff);
   display: flex;
   justify-content: center;
@@ -52,6 +52,15 @@
   padding: 0.8rem 1.2rem;
 }
 
+.add-input {
+  border: none;
+  font-family: "Nunito", sans-serif;
+  color: #ebedf9;
+  font-size: 1.8rem;
+  font-weight: 600;
+  display: flex;
+  justify-items: center;
+}
 
 .update-form input:focus {
   outline: none;
@@ -124,6 +133,7 @@
 
 .add-game-btn {
   border: none;
+  padding: 0.8rem;
   background-color: #364fc7;
   color: #ebedf9;
   display: inline-flex;
