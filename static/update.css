@@ -2,7 +2,7 @@
 /* UPDATE SECTION */
 /*********************/
 .section-update {
-  padding: 9.6rem 4.8rem;
+  padding: 4.8rem 4.8rem;
   /* height: 100vh; */
   background-image: linear-gradient(to right, #ebedf9, #fff);
   display: flex;
@@ -11,9 +11,18 @@
 
 .update-grid {
   display: grid;
-  grid-template-columns: 4fr 6fr;
-  justify-content: center;
-  align-content: center;
+  gap: 8rem;
+  justify-items: start;
+}
+
+.update-content {
+  width: 80%;
+  /* justify-self: center; */
+  /* text-align: center; */
+}
+
+.year-input {
+  width: 14rem;
 }
 
 .heading-primary {
@@ -24,27 +33,30 @@
   color: #444;
   font-weight: 600;
   font-size: 2.2rem;
-  margin-bottom: 4.8rem;
   line-height: 1.35;
   letter-spacing: 0.3px;
+  width: 70%;
 }
 
-.update-rating,
-.update-review {
+.update-form {
   display: flex;
+  gap: 4.8rem;
+  justify-self: center;
+  /* width: 50%; */
   flex-direction: column;
-  gap: 1.2rem;
 }
 
 .update-form label {
+  display: block;
   color: #444;
   font-size: 1.8rem;
   font-weight: 600;
+  margin-bottom: 1.2rem;
 }
 
 .text-input {
   font-family: "Nunito", sans-serif;
-  font-size: 1.6rem;
+  font-size: 1.8rem;
   font-weight: 500;
   border: none;
   border-radius: 6px;
@@ -62,21 +74,29 @@
   justify-items: center;
 }
 
+.rating-review {
+  display: flex;
+  gap: 2.4rem;
+}
+
+.game-title-year{
+  display: flex;
+  gap: 2.4rem;
+  /* justify-content: center; */
+}
+
+.update-form input {
+  margin-bottom: 1.2rem ;
+}
+
 .update-form input:focus {
   outline: none;
   box-shadow: 0 0rem 0.2rem 0.2rem #4a62cd57;
 }
 
-.update-form {
-  display: flex;
-  gap: 2.4rem;
-  justify-self: center;
-  width: 50%;
-  flex-direction: column;
-}
-
 .input-error {
   border: 1px solid #e03131;
+  display: block;
 }
 
 .error {
@@ -89,9 +109,9 @@
   background-color: #364fc7;
   color: #ebedf9;
   display: inline-block;
+  align-self: end;
   border-radius: 6px;
   width: 30%;
-  margin-top: 4rem;
 
   transition: all 0.3s;
   cursor: pointer;
@@ -106,11 +126,17 @@
 /* ADD GAME SECTION */
 /*********************/
 .section-game {
-  padding: 9.6rem 4.8rem;
+  padding: 4.8rem 4.8rem;
   background-image: linear-gradient(to right, #ebedf9, #fff);
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+.add-game-grid {
+  display: grid;
+  gap: 4.8rem;
+  justify-items: start;
 }
 
 .game-container{
@@ -119,10 +145,6 @@
 
 .update-form label {
   font-size: 2rem;
-}
-
-.game-form {
-  margin-top: 4.8rem;
 }
 
 .add-game-form {

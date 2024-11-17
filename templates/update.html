@@ -42,35 +42,75 @@
           </p>
         </div>
 
-
-
         <div class="update-form-container">
           <form
             class="update-form"
-            action="{{ url_for('update') }}"
+            action="{{ url_for('update', game_id=game.id) }}"
             novalidate
             method="POST"
           >
             {{ form.csrf_token }}
-            <div class="update-rating">
-              {% if not form.rating.errors: %}
-                {{ form.rating.label }} {{ form.rating(size=30, class_="text-input") }}
-              {% endif %}
-
-              {% if form.rating.errors: %}
-                {% for error in form.rating.errors: %}
-                  {{ form.rating.label }} {{ form.rating(size=30, class_="text-input input-error") }}
+            <div class="game-title-year">
+              <div class="update-title">
+                {{ form.title.label }}
+                {{ form.title(
+                  size=30, class_="text-input" + (" input-error" if form.title.errors else "")
+                ) }}
+              
+                {% for error in form.title.errors: %}
                     <span class="error">{{ error }}</span>
                 {% endfor %}
-              {%endif%}
+              </div>
+  
+              <div class="update-year">
+                {{ form.year.label }}
+                {{ form.year(
+                  class_="year-input text-input" + (" input-error" if form.year.errors else "")
+                ) }}
+              
+                {% for error in form.year.errors: %}
+                    <span class="error">{{ error }}</span>
+                {% endfor %}
+              </div>
+            </div>
+  
+            <div class="rating-review">
+              <div class="update-rating">
+                {{ form.rating.label }}
+                {{ form.rating(
+                  size=10, class_="text-input" + (" input-error" if form.rating.errors else "")
+                ) }}
+              
+                {% for error in form.rating.errors: %}
+                    <span class="error">{{ error }}</span>
+                {% endfor %}
+              </div>
+              
+              <div class="update-review">
+                {{ form.review.label }}
+                {{ form.review(
+                  size=30, class_="text-input" + (" input-error" if form.review.errors else "")
+                ) }}
+              
+                {% for error in form.review.errors: %}
+                    <span class="error">{{ error }}</span>
+                {% endfor %}
+              </div>
             </div>
 
-            <div class="update-review">
-              {%if form.review.errors:%} {{ form.review.label }} {{
-              form.review(size=30 , class_="text-input input-error") }}
-              {%endif%} {%if not form.review.errors:%} {{ form.review.label }}
-              {{ form.review(size=30 , class_="text-input") }} {%endif%}
+            <div class="update-description">
+              {{ form.description.label }}
+              {{ form.description(
+                class_="text-input" + (" input-error" if form.description.errors else "")
+              ) }}
+            
+              {% for error in form.description.errors: %}
+                  <span class="error">{{ error }}</span>
+              {% endfor %}
             </div>
+
+            {{ ckeditor.load() }}
+            {{ ckeditor.config(name='description', width=510) }}
 
             {{ form.submit(class_="submit-btn text-input") }}
             <input type="hidden" value="{{ game_to_update.id }}" name="id">

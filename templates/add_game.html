@@ -34,7 +34,7 @@
 
 
     <section class="section-game">
-      <div class="container update-grid game-container">
+      <div class="container add-game-grid game-container">
         <div class="update-content">
           <h1 class="heading-primary add-game-primary">Add a New Game to Your Collection</h1>
           <P class="update-description">Ready to level up your list? Share your latest discovery or all-time favorite! Just fill in the game name, and let the world know why it deserves a spot on your list.</P>
@@ -76,7 +76,7 @@
                     <img class="img-search" src="{{ game['background_image'] }}" alt="">
                   {% endif %}
                   <div class="game-details">
-                    <a class="search-item" href="{{ url_for('get_game', id=game['id'], name=game['name']) }}">{{ game["name"] }}</a>
+                    <a class="search-item" href="{{ url_for('get_game', game_id=game['id'], name=game['name']) }}">{{ game["name"] }}</a>
 
                     <div class="tags">
                       {% if game["platforms"] and game["stores"] != None: %}
