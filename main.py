@@ -137,7 +137,7 @@ def home():
 def update():
     form = UpdateForm()
     game_id = request.args.get("id")
-
+    
     if form.validate_on_submit():
         validate_update()
         return redirect(location=url_for('home'))
