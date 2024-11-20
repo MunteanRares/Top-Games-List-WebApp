@@ -24,16 +24,9 @@ ckeditor = CKEditor(app)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///game-database.db"
 db = SQLAlchemy(app)
 
-
 ###########################
 # CREATE CLASSES FOR FORMS
 ###########################
-class UpdateForm(FlaskForm):
-    rating = FloatField(label="Your Rating", validators=[validators.DataRequired()])
-    review = StringField(label="Your Review", validators=[validators.length(max=75)])
-    submit = SubmitField(label="Submit")
-
-
 class AddGameForm(FlaskForm):
     game_name = StringField(label="Game Name", validators=[validators.DataRequired()])
     submit = SubmitField(label="Search")
@@ -44,7 +37,7 @@ class GameEditFull(FlaskForm):
     rating = FloatField(label="Game Rating", validators=[validators.DataRequired()])
     review = StringField(label="Game Review", validators=[validators.DataRequired()])
     description = CKEditorField(label="Game Description")
-    submit = SubmitField(label="Update")
+    submit = SubmitField(label="Submit")
 
 ###########################
 # CREATE FIRST TABLE named 'Games'
@@ -58,10 +51,10 @@ class Game(db.Model):
     description: Mapped[str]
     img_url: Mapped[str]
     ranking: Mapped[int] = mapped_column(nullable=True)
+
 ### Create to database.
 with app.app_context():
     db.create_all()
-
 
 ###########################
 # FUNCTIONS
@@ -94,7 +87,6 @@ def get_games_list_data(search_value):
         game_list.append(game)
     return game_list
 
-
 ### SHORTEN DESCRIPTION
 def cut_paragraph(text):
     cutoff = 250
@@ -107,13 +99,11 @@ def cut_paragraph(text):
 
     return shortened_text
 
-
 ### YEAR FROM DATE
 def get_year(date):
     temp = date.split("-")
     year = temp[0]
     return year
-
 
 ###########################
 # INSERT FIRST VALUES TO 'Game'
