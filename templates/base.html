@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>{%block title%}{% endblock %}</title>
+  <meta name="description" content="" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+  {% block stylesheet %}
+  {% endblock stylesheet%}
+
+  <link rel="stylesheet" href="../static/css/general.css">
+  <link rel="stylesheet" href="../static/css/nav-bar.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
+    rel="stylesheet" />
+</head>
+
+<body>
+  <section class="section-nav">
+    <div>
+      <a class="logo-link" href="{{ url_for('home') }}">
+        <img class="logo-img"
+          src="../static/img/byatis_shape_logo_vector_png_black_and_white_--v_6_3e5a049d-37b4-4b48-8202-79623400853d_2 (1).png"
+          alt="">
+        <span class="logo-text">GameSphere</span>
+      </a>
+    </div>
+
+    <div class="nav-right">
+      <ul class="nav-list">
+        <li>
+          <a class="nav-link" href="">Log In</a>
+        </li>
+
+        <li>
+          <a class="nav-link" href="{{ url_for('register') }}">Register</a>
+        </li>
+
+        <l>
+          <a class="nav-btn" href="{{url_for('add_game')}}">Add Game</a>
+          </li>
+      </ul>
+    </div>
+  </section>
+
+  {% block content %}
+  {% endblock content %}
+
+</body>
+
+</html>

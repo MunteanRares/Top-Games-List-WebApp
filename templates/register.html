@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}
+Register
+{% endblock title %}
+
+{% block stylesheet %}
+<link rel="stylesheet" href="../static/css/register.css">
+{% endblock stylesheet %}
+
+{% block content %}
+<section class="section-register">
+  <div class="register-container">
+    <a class="form-top" href="{{ url_for('home') }}">
+      <img class="form-logo"
+        src="../static/img/byatis_shape_logo_vector_png_black_and_white_--v_6_3e5a049d-37b4-4b48-8202-79623400853d_2 (1).png"
+        alt="">
+      <span class="form-text">GameSphere</span>
+    </a>
+
+    <p class="subtitle">Create a free account</p>
+
+    <form class="register-form" action="" novalidate method="post">
+      {{ form.csrf_token }}
+      <div class="input-box">
+        {{ form.name.label }}
+        {{ form.name(size=30, class_="text-input" + (" input-error" if form.name.errors else "")) }}
+      </div>
+
+      <div class="input-box">
+        {{ form.email.label }}
+        {{ form.email(size=30, class_="text-input" + (" input-error" if form.email.errors else "")) }}
+      </div>
+
+      <div class="password-input">
+        <div class="input-box">
+          {{form.password.label}}
+          {{form.password(size=17, class_="text-input" + (" input-error" if form.password.errors else ""))}}
+        </div>
+
+        <div class="input-box">
+          {{form.confirm_password.label}}
+          {{form.confirm_password(size=17, class_="text-input" + (" input-error" if form.confirm_password.errors else
+          ""))}}
+        </div>
+
+      </div>
+
+      <div>
+        {{form.submit(class_="submit-btn")}}
+      </div>
+
+      <div class="register-subtext">
+        <p class="have-account">Have an account? <a class="signin-link" href="">Sign in now!</a></p>
+      </div>
+    </form>
+  </div>
+</section>
+{% endblock%}

@@ -2,13 +2,15 @@
 /* SECTION HERO */
 /*******************/
 .section-hero {
-  padding: 8rem 4.8rem;
+  margin-top: 4.8rem;
+  position: relative;
+  padding: 0rem 4.8rem;
   background-image: linear-gradient(
       to right,
       rgba(27, 27, 27, 0.6),
       rgba(46, 46, 46, 0.1)
     ),
-    url(../static/img/glenn-carstens-peters-0woyPEJQ7jc-unsplash.jpg);
+    url(../img/glenn-carstens-peters-0woyPEJQ7jc-unsplash.jpg);
   background-size: 250rem;
   background-repeat: no-repeat;
   height: 70rem;
@@ -28,6 +30,15 @@
   margin-bottom: 4.8rem;
   line-height: 1.35;
   letter-spacing: 0.3px;
+  color: #ebedf9;
+}
+
+.hero-primary {
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+  font-size: 5.2rem;
+  margin-bottom: 3.2rem;
   color: #ebedf9;
 }
 
@@ -51,7 +62,7 @@
   background-color: #050505;
   overflow: hidden;
   box-shadow: 0 0 3.2rem rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
+  border-radius: 6px;
   position: relative;
   min-width: 40rem;
   max-width: 100%;
@@ -86,6 +97,7 @@
 .rank {
   display: block;
   position: absolute;
+  color: #edf2ff;
   top: 50%;
   right: 50%;
   transform: translate(50%, -50%);
@@ -174,7 +186,7 @@
   font-family: inherit;
   font-size: 1.8em;
   font-weight: 500;
-  border-radius: 6px;
+  border-radius: 4px;
   box-shadow: 0 0.6rem 1.2rem rgba(0, 0, 0, 0.1);
 
   transition: all 0.3s;

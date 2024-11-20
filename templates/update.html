@@ -1,122 +1,88 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Update Game</title>
-    <meta name="description" content="" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+{% extends "base.html" %}
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="../static/queries.css">
-    <link rel="stylesheet" href="../static/general.css" />
-    <link rel="stylesheet" href="../static/update.css" />
-    <link rel="stylesheet" href="../static/header.css">
-  </head>
-  <body>
+{% block title %}
+Update Game
+{% endblock title %}
 
-    <section class="section-header">
-      <div class="header-container">
-        <a class="back-button-anchor" href="">
-          <div class="back-button">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-left"><polyline points="15 18 9 12 15 6"></polyline></svg>
-            <a class="home-btn" href="{{ url_for('home') }}">Home</a>
+{% block stylesheet %}
+<link rel="stylesheet" href="../static/css/queries.css">
+<link rel="stylesheet" href="../static/css/update.css" />
+<link rel="stylesheet" href="../static/css/header.css">
+{% endblock stylesheet %}
+
+{% block content %}
+<section class="section-update">
+  <div class="container update-grid">
+    <div class="update-content">
+      <h1 class="heading-primary">Customize {{ game_to_update["title"] }}</h1>
+      <p class="update-description">
+        Refine your thoughts on {{game_to_update["title"]}}. Update your review, adjust your
+        rating, and see how your perspective has evolved.
+      </p>
+    </div>
+
+    <div class="update-form-container">
+      <form class="update-form" action="{{ url_for('update', game_id=game.id) }}" novalidate method="POST">
+        {{ form.csrf_token }}
+        <div class="game-title-year">
+          <div class="update-box">
+            <div class="in-case-error">
+              {{ form.title.label(class_="normal-label" + (" label-error" if form.title.errors else ""))}}
+              {% if form.title.errors %}
+              <span class="error"> - {{form.title.errors[0] }}</span>
+              {% endif %}
+            </div>
+
+            {{ form.title(
+            size=30, class_="text-input" + (" input-error" if form.title.errors else "")
+            ) }}
           </div>
-        </a>
-      </div>
-    </section>
 
+          <div class="update-box">
+            {{ form.year.label(class_="normal-label" + (" label-error" if form.year.errors else "")) }}
+            {{ form.year(
+            class_="year-input text-input" + (" input-error" if form.year.errors else "")
+            ) }}
 
-    <section class="section-update">
-      <div class="container update-grid">
-        <div class="update-content">
-          <h1 class="heading-primary">Customize Your Thoughts on {{ game_to_update["title"] }}</h1>
-          <p class="update-description">
-            Refine your thoughts on {{game_to_update["title"]}}. Update your review, adjust your
-            rating, and capture how your perspective has evolved.
-          </p>
+          </div>
         </div>
 
-        <div class="update-form-container">
-          <form
-            class="update-form"
-            action="{{ url_for('update', game_id=game.id) }}"
-            novalidate
-            method="POST"
-          >
-            {{ form.csrf_token }}
-            <div class="game-title-year">
-              <div class="update-title">
-                {{ form.title.label }}
-                {{ form.title(
-                  size=30, class_="text-input" + (" input-error" if form.title.errors else "")
-                ) }}
-              
-                {% for error in form.title.errors: %}
-                    <span class="error">{{ error }}</span>
-                {% endfor %}
-              </div>
-  
-              <div class="update-year">
-                {{ form.year.label }}
-                {{ form.year(
-                  class_="year-input text-input" + (" input-error" if form.year.errors else "")
-                ) }}
-              
-                {% for error in form.year.errors: %}
-                    <span class="error">{{ error }}</span>
-                {% endfor %}
-              </div>
+        <div class="rating-review">
+          <div class="update-box">
+            <div class="in-case-error">
+              {{ form.review.label(class_="normal-label" + (" label-error" if form.review.errors else "")) }}
+              {% if form.review.errors %}
+              <span class="error"> - {{form.review.errors[0] }}</span>
+              {% endif %}
             </div>
-  
-            <div class="rating-review">
-              <div class="update-rating">
-                {{ form.rating.label }}
-                {{ form.rating(
-                  size=10, class_="text-input" + (" input-error" if form.rating.errors else "")
-                ) }}
-              
-                {% for error in form.rating.errors: %}
-                    <span class="error">{{ error }}</span>
-                {% endfor %}
-              </div>
-              
-              <div class="update-review">
-                {{ form.review.label }}
-                {{ form.review(
-                  size=30, class_="text-input" + (" input-error" if form.review.errors else "")
-                ) }}
-              
-                {% for error in form.review.errors: %}
-                    <span class="error">{{ error }}</span>
-                {% endfor %}
-              </div>
-            </div>
+            {{ form.review(
+            size=30, class_="text-input" + (" input-error" if form.review.errors else "")
+            ) }}
+          </div>
 
-            <div class="update-description">
-              {{ form.description.label }}
-              {{ form.description(
-                class_="text-input" + (" input-error" if form.description.errors else "")
-              ) }}
-            
-              {% for error in form.description.errors: %}
-                  <span class="error">{{ error }}</span>
-              {% endfor %}
-            </div>
-
-            {{ ckeditor.load() }}
-            {{ ckeditor.config(name='description', width=510) }}
-
-            {{ form.submit(class_="submit-btn text-input") }}
-            <input type="hidden" value="{{ game_to_update.id }}" name="id">
-          </form>
+          <div class="update-box">
+            {{ form.rating.label(class_="normal-label" + (" label-error" if form.rating.errors else "")) }}
+            {{ form.rating(
+            size=10, class_="text-input" + (" input-error" if form.rating.errors else "")
+            ) }}
+          </div>
         </div>
-      </div>
-    </section>
-  </body>
-</html>
+
+        <div class="update-box">
+          {{ form.description.label(class_="normal-label" + (" label-error" if form.description.errors else "")) }}
+          {{ form.description(
+          class_="text-input" + (" input-error" if form.description.errors else "")
+          ) }}
+
+        </div>
+
+        {{ ckeditor.load() }}
+        {{ ckeditor.config(name='description', width=510) }}
+
+        {{ form.submit(class_="submit-btn text-input") }}
+        <input type="hidden" value="{{ game_to_update.id }}" name="id">
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock content %}

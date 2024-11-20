@@ -1,0 +1,99 @@
+.section-nav {
+  position: fixed;
+  width: 100%;
+  background-color: white;
+
+  top: 0;
+  left: 0;
+  padding: 2.4rem 4.8rem;
+  display: flex;
+  justify-content: space-between;
+  box-shadow: 0 0.2rem 1.6rem rgba(0, 0, 0, 0.04);
+
+  z-index: 999;
+}
+
+.form-top {
+  display: flex;
+  text-decoration: none;
+  gap: 0.4rem;
+  /* justify-content: center; */
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.form-logo {
+  width: 3rem;
+}
+
+.form-text {
+  color: #364fc7;
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.logo-link:link,
+.logo-link:visited {
+  text-decoration: none;
+}
+
+.logo-text {
+  color:#364fc7;
+  font-size: 2.6rem;
+  font-weight: 700;
+}
+
+.nav-right {
+  display: flex;
+}
+
+.nav-list {
+  list-style: none;
+  display: flex;
+  gap:3.2rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-link {
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+  text-decoration: none;
+}
+
+.nav-link:link,
+.nav-link:visited {
+  color: #444;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 2rem;
+
+  transition: all 0.3s;
+}
+
+.nav-link:active,
+.nav-link:hover {
+  color: #364fc7;
+}
+
+.nav-btn:link,
+.nav-btn:visited {
+  padding: 0.8rem 1.2rem;
+  background-color: #364fc7;
+  text-decoration: none;
+  color: #edf2ff;
+  font-family: inherit;
+  font-size: 1.8em;
+  font-weight: 600;
+  border-radius: 4px;
+  box-shadow: 0 0.6rem 1.2rem rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+
+  transition: all 0.3s;
+}
+
+.nav-btn:active,
+.nav-btn:hover {
+  background-color: #4a61cd;
+}

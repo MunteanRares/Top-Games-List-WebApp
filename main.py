@@ -1,15 +1,12 @@
-from cProfile import label
-
 import requests
-from flask import Flask, render_template, request, url_for
-from flask_ckeditor import CKEditorField
+from flask import Flask, render_template, request, url_for, flash
+from flask_login import UserMixin
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.orm import Mapped, mapped_column
+from flask_login import LoginManager
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from werkzeug.utils import redirect
-from wtforms import StringField, SubmitField, FloatField, validators
-from flask_wtf import FlaskForm
 from flask_ckeditor import CKEditor
-from wtforms.fields.numeric import IntegerField
+from forms import AddGameForm, GameEditFull, RegisterForm
 
 ###########################
 # CREATE APP SERVER
@@ -18,6 +15,13 @@ app = Flask(__name__)
 app.secret_key = "aijsdoiasjoiada"
 ckeditor = CKEditor(app)
 
+login_manager = LoginManager()
+login_manager.init_app(app)
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(user_id)
+
 ###########################
 # CONNECT SQLALCHEMY TO DATABASE
 ###########################
@@ -25,32 +29,32 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///game-database.db"
 db = SQLAlchemy(app)
 
 ###########################
-# CREATE CLASSES FOR FORMS
-###########################
-class AddGameForm(FlaskForm):
-    game_name = StringField(label="Game Name", validators=[validators.DataRequired()])
-    submit = SubmitField(label="Search")
-
-class GameEditFull(FlaskForm):
-    title = StringField(label="Game Title", validators=[validators.DataRequired()])
-    year = IntegerField(label="Game Year", validators=[validators.DataRequired()])
-    rating = FloatField(label="Game Rating", validators=[validators.DataRequired()])
-    review = StringField(label="Game Review", validators=[validators.DataRequired()])
-    description = CKEditorField(label="Game Description")
-    submit = SubmitField(label="Submit")
-
-###########################
 # CREATE FIRST TABLE named 'Games'
 ###########################
 class Game(db.Model):
-    id: Mapped[int] = mapped_column(primary_key=True)
-    title: Mapped[str] = mapped_column(unique=True)
-    year: Mapped[int]
-    rating: Mapped[float]
-    review: Mapped[str]
-    description: Mapped[str]
-    img_url: Mapped[str]
-    ranking: Mapped[int] = mapped_column(nullable=True)
+    __tablename__ = "games"
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(250), unique=True, nullable=False)
+    year = db.Column(db.Integer, nullable=False)
+    rating = db.Column(db.Float)
+    review = db.Column(db.String(250))
+    description = db.Column(db.String(250), nullable=False)
+    img_url = db.Column(db.String(250), nullable=False)
+    ranking = db.Column(db.Integer)
+
+    #MANY games for ONE user
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    user = relationship("User", back_populates="games")
+
+class User(UserMixin, db.Model):
+    __tablename__ = "users"
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(250), nullable=False)
+    email = db.Column(db.String(250), nullable=False, unique=True)
+    password = db.Column(db.String(250), nullable=False)
+
+    #relationship
+    games = relationship("Game", back_populates="user")
 
 ### Create to database.
 with app.app_context():
@@ -59,19 +63,6 @@ with app.app_context():
 ###########################
 # FUNCTIONS
 ###########################
-### VALIDATE ON UPDATE PAGE
-# def validate_update():
-#     game_id_from_form = request.form.get("id")
-#     new_review = request.form.get("review")
-#     game_to_update = db.session.get(Game, game_id_from_form)
-#     game_to_update.rating = request.form.get("rating")
-#
-#     if not new_review == "":
-#         game_to_update.review = new_review
-#     else:
-#         print("GAME IS IS NULL")
-#     db.session.commit()
-
 ### REQUEST GAMES
 def get_games_list_data(search_value):
     game_list = []
@@ -105,6 +96,7 @@ def get_year(date):
     year = temp[0]
     return year
 
+
 ###########################
 # INSERT FIRST VALUES TO 'Game'
 ###########################
@@ -133,6 +125,19 @@ def home():
     for i in range(len(all_games)):
         all_games[i].ranking = len(all_games) - i
     return render_template("index.html", all_games=all_games)
+
+@app.route("/register", methods=["POST", "GET"])
+def register():
+    form = RegisterForm()
+    if form.validate_on_submit():
+        if request.form.get("password") != request.form.get("confirm_password"):
+            flash("The passwords you entered do not match. Please try again.")
+
+    return render_template("register.html", form=form)
+
+# @app.route("/login")
+# def login():
+
 
 
 @app.route('/edit/<int:game_id>', methods=["GET", "POST"])

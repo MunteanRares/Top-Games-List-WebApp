@@ -2,23 +2,23 @@
 /* UPDATE SECTION */
 /*********************/
 .section-update {
-  padding: 4.8rem 4.8rem;
-  /* height: 100vh; */
+  padding: 0 4.8rem;
+  height: 100vh;
   background-image: linear-gradient(to right, #ebedf9, #fff);
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 .update-grid {
   display: grid;
-  gap: 8rem;
-  justify-items: start;
+  grid-template-columns: 1fr 1fr;
+  gap: 9.6rem;
 }
 
-.update-content {
-  width: 80%;
-  /* justify-self: center; */
-  /* text-align: center; */
+.update-form-container {
+  display: flex;
+  justify-content: start;
 }
 
 .year-input {
@@ -35,33 +35,35 @@
   font-size: 2.2rem;
   line-height: 1.35;
   letter-spacing: 0.3px;
-  width: 70%;
+  width: 80%;
+}
+
+.update-box {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
 }
 
 .update-form {
   display: flex;
-  gap: 4.8rem;
-  justify-self: center;
-  /* width: 50%; */
+  gap: 3.2rem;
   flex-direction: column;
 }
 
-.update-form label {
+.normal-label {
   display: block;
   color: #444;
-  font-size: 1.8rem;
-  font-weight: 600;
+  font-size: 1.4rem;
+  font-weight: 700;
+  text-transform: uppercase;
   margin-bottom: 1.2rem;
+  letter-spacing: -0.3px;
+
+  margin-bottom: 0;
 }
 
-.text-input {
-  font-family: "Nunito", sans-serif;
-  font-size: 1.8rem;
-  font-weight: 500;
-  border: none;
-  border-radius: 6px;
-  box-shadow: 0 0.4rem 0.8rem rgba(0, 0, 0, 0.1);
-  padding: 0.8rem 1.2rem;
+.label-error {
+  color: #fa5252;
 }
 
 .add-input {
@@ -71,6 +73,8 @@
   font-size: 1.8rem;
   font-weight: 600;
   display: flex;
+
+  margin-top: 1.2rem;
   justify-items: center;
 }
 
@@ -85,23 +89,13 @@
   /* justify-content: center; */
 }
 
-.update-form input {
+/* .update-form input {
   margin-bottom: 1.2rem ;
-}
+} */
 
 .update-form input:focus {
   outline: none;
-  box-shadow: 0 0rem 0.2rem 0.2rem #4a62cd57;
-}
-
-.input-error {
-  border: 1px solid #e03131;
-  display: block;
-}
-
-.error {
-  color: #e03131;
-  font-size: 1.4rem;
+  box-shadow: 0 0 0 0.15rem rgb(104, 104, 104);
 }
 
 .submit-btn {
@@ -110,8 +104,8 @@
   color: #ebedf9;
   display: inline-block;
   align-self: end;
-  border-radius: 6px;
-  width: 30%;
+  border-radius: 4px;
+  width: 100%;
 
   transition: all 0.3s;
   cursor: pointer;
@@ -121,16 +115,22 @@
   background-color: #4a61cd;
 }
 
+.text-input::placeholder {
+  color: #999;
+  font-size: 1.8rem;
+}
+
 
 /*********************/
 /* ADD GAME SECTION */
 /*********************/
 .section-game {
-  padding: 4.8rem 4.8rem;
+  height: 70vh;
   background-image: linear-gradient(to right, #ebedf9, #fff);
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
 }
 
 .add-game-grid {
@@ -141,10 +141,6 @@
 
 .game-container{
   align-content: start;
-}
-
-.update-form label {
-  font-size: 2rem;
 }
 
 .add-game-form {
@@ -160,8 +156,8 @@
   color: #ebedf9;
   display: inline-flex;
   max-width: 10rem;
-  border-radius: 6px;
-  margin-top: 1.2rem;
+  border-radius: 4px;
+  /* margin-top: 1.2rem; */
 
   transition: all 0.3s;
   cursor: pointer;
@@ -193,7 +189,7 @@
 .img-search {
   width: 15%;
   box-shadow: 0 6px 8px rgba(0, 0, 0, 0.16);
-  border-radius: 3px;
+  border-radius: 4px;
 
   transition: all 0.3s ease-out;
 }

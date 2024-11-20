@@ -6,6 +6,7 @@
 
 html {
   font-size: 62.5%;
+  overflow-y: scroll;
 }
 
 body {
@@ -13,11 +14,47 @@ body {
   font-weight: 400;
   line-height: 1;
   color: #fff;
+
 }
 
 .container {
   max-width: 130rem;
   margin: 0 auto;
+}
+
+.logo-img {
+  width: 5rem;
+}
+
+.input-error {
+  border: 1px solid #fa5252;
+  /* display: block; */
+}
+
+.error {
+  color: #fa5252;
+  font-size: 1.4rem;
+  font-style: italic;
+}
+
+.label-error {
+  color: #fa5252;
+}
+
+.in-case-error {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+}
+
+.text-input {
+  font-family: "Nunito", sans-serif;
+  font-size: 1.8rem;
+  font-weight: 500;
+  border: none;
+  border-radius: 4px;
+  box-shadow: 0 0 0 0.2rem rgba(0, 0, 0, 0.05);
+  padding: 0.8rem 1.2rem;
 }
 
 .heading-primary {
@@ -26,7 +63,7 @@ body {
   letter-spacing: -0.5px;
   font-size: 5.2rem;
   margin-bottom: 3.2rem;
-  color: #ebedf9;
+  color: #0b1028;
 }
 
 .btn,
@@ -35,11 +72,11 @@ body {
   padding: 1.2rem 1.6rem;
   background-color: #364fc7;
   text-decoration: none;
-  color: white;
+  color: #edf2ff;
   font-family: inherit;
   font-size: 1.8em;
   font-weight: 600;
-  border-radius: 6px;
+  border-radius: 4px;
   box-shadow: 0 0.6rem 1.2rem rgba(0, 0, 0, 0.1);
   cursor: pointer;
 
