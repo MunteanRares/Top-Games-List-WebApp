@@ -17,7 +17,7 @@
   margin-bottom: 2.4rem;
 }
 
-.register-form label {
+.normal-label {
   color: #444;
   font-size: 1.6rem;
   display: block;
@@ -32,6 +32,8 @@
 
 .password-input {
   display: flex;
+  position: relative;
+  margin-bottom: 1.2rem;
   gap: 3.2rem;
 }
 
@@ -46,14 +48,6 @@
   box-shadow: 0 0 0 0.15rem rgb(238, 238, 238);
   border-radius: 3px;
   padding: 0.6rem 1.2rem;
-}
-
-.text-input input {
-  color: red;
-}
-
-.text-input input:focus {
-  fill: red;
 }
 
 .text-input::placeholder {
@@ -102,4 +96,16 @@
 .submit-btn:hover {
   cursor: pointer;
   background-color: #4a61cd;
+}
+
+.flash-error {
+  color: #fa5252;
+  position: absolute;
+
+  width: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, 300%);
+  font-size: 1.4rem;
+  font-weight: 500;
 }

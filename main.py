@@ -1,12 +1,15 @@
 import requests
-from flask import Flask, render_template, request, url_for, flash
-from flask_login import UserMixin
+from flask import Flask, render_template, request, url_for, flash, abort
+from functools import wraps
+from flask_login import UserMixin, login_user, current_user, logout_user, login_required
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
+from numpy.ma.core import append
 from sqlalchemy.orm import Mapped, mapped_column, relationship
+from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import redirect
 from flask_ckeditor import CKEditor
-from forms import AddGameForm, GameEditFull, RegisterForm
+from forms import AddGameForm, GameEditFull, RegisterForm, LoginForm
 
 ###########################
 # CREATE APP SERVER
@@ -63,6 +66,15 @@ with app.app_context():
 ###########################
 # FUNCTIONS
 ###########################
+
+def unregistered_only(func):
+    @wraps(func)
+    def wrapped(*args, **kwargs):
+        if current_user.is_authenticated:
+            return abort(403)
+        return func(*args, **kwargs)
+    return wrapped
+
 ### REQUEST GAMES
 def get_games_list_data(search_value):
     game_list = []
@@ -121,26 +133,60 @@ new_game = Game(
 ###########################
 @app.route('/')
 def home():
-    all_games = db.session.query(Game).order_by(Game.rating).all()
-    for i in range(len(all_games)):
-        all_games[i].ranking = len(all_games) - i
-    return render_template("index.html", all_games=all_games)
+    if current_user.is_authenticated:
+        user_games = Game.query.filter_by(user_id=current_user.id).order_by(Game.rating).all()
+        for i in range(len(user_games)):
+            user_games[i].ranking = len(user_games) - i
+        return render_template("index.html", all_games=user_games)
+    else:
+        return render_template("index.html", all_games=[])
 
 @app.route("/register", methods=["POST", "GET"])
+@unregistered_only
 def register():
     form = RegisterForm()
     if form.validate_on_submit():
-        if request.form.get("password") != request.form.get("confirm_password"):
-            flash("The passwords you entered do not match. Please try again.")
-
+        email = request.form.get("email")
+        if User.query.filter_by(email=email).first() is None:
+            if request.form.get("password") == request.form.get("confirm_password"):
+                hash_pas = generate_password_hash(password=request.form.get("password"),method="scrypt",salt_length=16)
+                new_user = User(
+                    name=request.form.get("name"),
+                    email=email,
+                    password=hash_pas,
+                )
+                db.session.add(new_user)
+                db.session.commit()
+                login_user(new_user)
+                return redirect(url_for('home'))
+            else:
+                flash("The passwords you entered do not match. Please try again.")
+        else:
+            flash("Account already in use. Please log in instead.")
     return render_template("register.html", form=form)
 
-# @app.route("/login")
-# def login():
+@app.route("/login", methods=["POST", "GET"])
+@unregistered_only
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        email = request.form.get("email")
+        user = User.query.filter_by(email=email).first()
+        if user and check_password_hash(pwhash=user.password, password=request.form.get("password")):
+            login_user(user)
+            return redirect(url_for('home'))
+        else:
+            flash("Invalid Credentials")
+    return render_template("login.html", form=form)
 
-
+@app.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('home'))
 
 @app.route('/edit/<int:game_id>', methods=["GET", "POST"])
+@login_required
 def update(game_id):
     game_id = game_id
     game = Game.query.get(game_id)
@@ -169,6 +215,7 @@ def update(game_id):
 
 
 @app.route("/delete")
+@login_required
 def delete():
     game_id = request.args.get("game_id")
     game_to_del = db.session.get(Game, game_id)
@@ -179,6 +226,7 @@ def delete():
 
 
 @app.route("/add-game", methods=["GET", "POST"])
+@login_required
 def add_game():
     form = AddGameForm()
     all_games = db.session.query(Game).all()
@@ -192,6 +240,7 @@ def add_game():
 
 
 @app.route("/get_game")
+@login_required
 def get_game():
     game_id = request.args.get("game_id")
     params = {
@@ -220,6 +269,7 @@ def get_game():
         year=release_date,
         description=game_description,
         img_url=img_background,
+        user=current_user
     )
 
     with app.app_context():

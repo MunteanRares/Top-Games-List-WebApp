@@ -20,47 +20,57 @@ GameSphere
 <section class="section-hero">
   <div class="container hero-grid">
     <div class="hero-container">
-      <h1 class="hero-primary">Build Your Gaming Legacy with GameSphere</h1>
-      <p class="hero-description">
-        From first quest to final boss, keep a record of the games you've mastered and set goals for the ones you want
-        to play next.
-      </p>
-      <a href="{{ url_for('register') }}" class="btn">Get Started</a>
+      {% if current_user.is_authenticated %}
+        <h1 class="hero-primary">Hi, {{ current_user.name }}! Ready to explore?</h1>
+        <p class="hero-description">
+          Welcome back! Keep tracking your wins and discovering your next favorite games.
+        </p>
+        <a href="{{ url_for('add_game') }}" class="btn">Add Game</a>
+      {% else %}
+        <h1 class="hero-primary">Build Your Gaming Legacy with GameSphere</h1>
+        <p class="hero-description">
+          From first quest to final boss, keep a record of the games you've mastered and set goals for the ones you want
+          to play next.
+        </p>
+        <a href="{{ url_for('register') }}" class="btn">Get Started</a>
+      {% endif %}
+      
     </div>
   </div>
 </section>
 
 <section class="section-game-list">
   <div class="container game-list-grid">
-    {% if not all_games == []: %} {% for game in all_games: %}
-    <div class="game-card">
-      <div class="game-image">
-        <img src="{{ game['img_url'] }}" alt="" />
-        <span class="rank">{{ game['ranking'] }}</span>
-      </div>
+    {% if not all_games == []: %}
+     {% for game in all_games: %}
+      <div class="game-card">
+        <div class="game-image">
+          <img src="{{ game['img_url'] }}" alt="" />
+          <span class="rank">{{ game['ranking'] }}</span>
+        </div>
 
-      <div class="game-content">
-        <h2 class="game-title">
-          {{ game['title']}}
-          <span class="game-year">({{ game['year'] }})</span>
-        </h2>
-        <ul class="game-ratings">
-          <li>
-            <span>{{ game['rating'] }} <span class="emoji">⭐</span></span>
-          </li>
-        </ul>
-        <div class="game-review">
-          <blockquote>"{{ game['review'] }}"</blockquote>
-        </div>
-        <div class="game-description">
-          <p>{{ game['description'] | safe() }}</p>
-        </div>
-        <div class="game-buttons">
-          <a class="btn update-button" href="{{ url_for('update', game_id=game.id) }}">Update</a>
-          <a class="delete-button" href="{{ url_for('delete', game_id=game.id) }}">Delete</a>
+        <div class="game-content">
+          <h2 class="game-title">
+            {{ game['title']}}
+            <span class="game-year">({{ game['year'] }})</span>
+          </h2>
+          <ul class="game-ratings">
+            <li>
+              <span>{{ game['rating'] }} <span class="emoji">⭐</span></span>
+            </li>
+          </ul>
+          <div class="game-review">
+            <blockquote>"{{ game['review'] }}"</blockquote>
+          </div>
+          <div class="game-description">
+            <p>{{ game['description'] | safe() }}</p>
+          </div>
+          <div class="game-buttons">
+            <a class="btn update-button" href="{{ url_for('update', game_id=game.id) }}">Update</a>
+            <a class="delete-button" href="{{ url_for('delete', game_id=game.id) }}">Delete</a>
+          </div>
         </div>
       </div>
-    </div>
     {% endfor %} {% endif %}
   </div>
 </section>

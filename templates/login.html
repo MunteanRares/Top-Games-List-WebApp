@@ -1,11 +1,11 @@
 {% extends "base.html" %}
-{% block title %}
-Register
-{% endblock title %}
 
-{% block stylesheet %}
+{% block title %}
+Log In
+{% endblock title %}    
+
+{% block stylesheet %}e
 <link rel="stylesheet" href="../static/css/register.css">
-<link rel="stylesheet" href="../static/css/queries.css">
 {% endblock stylesheet %}
 
 {% block content %}
@@ -18,21 +18,10 @@ Register
       <span class="form-text">GameSphere</span>
     </a>
 
-    <p class="subtitle">Create a free account</p>
+    <p class="subtitle">Log in securely</p>
 
     <form class="register-form" action="" novalidate method="post">
       {{ form.csrf_token }}
-      <div class="input-box">
-        <div class="in-case-error">
-          {{ form.name.label(class_="normal-label" + (" label-error" if form.name.errors else "")) }}
-          {% if form.name.errors%}
-            <span class="error"> - {{ form.name.errors[0] }}</span>
-          {% endif %}
-        </div>
-
-        {{ form.name(size=30, class_="text-input")}}
-      </div>
-
       <div class="input-box">
         <div class="in-case-error">
           {{ form.email.label(class_="normal-label" + (" label-error" if form.email.errors else "")) }}
@@ -46,13 +35,7 @@ Register
       <div class="password-input">
         <div class="input-box">
           {{form.password.label(class_="normal-label" + (" label-error" if form.password.errors else ""))}}
-          {{form.password(size=17, class_="text-input")}}
-        </div>
-
-        <div class="input-box">
-          {{form.confirm_password.label(class_="normal-label" + (" label-error" if form.confirm_password.errors else
-          ""))}}
-          {{form.confirm_password(size=17, class_="text-input")}}
+          {{form.password(size=30, class_="text-input")}}
         </div>
 
         {% with messages=get_flashed_messages() %}
@@ -63,15 +46,19 @@ Register
           {% endif %}
         {% endwith %}
       </div>
-
       <div>
         {{form.submit(class_="submit-btn")}}
       </div>
 
       <div class="register-subtext">
-        <p class="have-account">Have an account? <a class="signin-link" href="{{ url_for('login') }}">Sign in now!</a></p>
+        <p class="have-account">Don't have an account? <a class="signin-link" href="{{ url_for('register') }}">Create one now!</a></p>
       </div>
     </form>
   </div>
 </section>
-{% endblock%}
+
+
+
+
+
+{% endblock content %}

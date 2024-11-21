@@ -26,11 +26,6 @@ body {
   width: 5rem;
 }
 
-.input-error {
-  border: 1px solid #fa5252;
-  /* display: block; */
-}
-
 .error {
   color: #fa5252;
   font-size: 1.4rem;
