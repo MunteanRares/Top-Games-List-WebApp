@@ -1,6 +1,7 @@
 import requests
 from flask import Flask, render_template, request, url_for, flash, abort
 from functools import wraps
+import os
 from flask_login import UserMixin, login_user, current_user, logout_user, login_required
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
@@ -15,7 +16,7 @@ from forms import AddGameForm, GameEditFull, RegisterForm, LoginForm
 # CREATE APP SERVER
 ###########################
 app = Flask(__name__)
-app.secret_key = "aijsdoiasjoiada"
+app.secret_key = os.environ['SECRET_APP_KEY']
 ckeditor = CKEditor(app)
 
 login_manager = LoginManager()
@@ -37,7 +38,7 @@ db = SQLAlchemy(app)
 class Game(db.Model):
     __tablename__ = "games"
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(250), unique=True, nullable=False)
+    title = db.Column(db.String(250), nullable=False)
     year = db.Column(db.Integer, nullable=False)
     rating = db.Column(db.Float)
     review = db.Column(db.String(250))
@@ -79,7 +80,7 @@ def unregistered_only(func):
 def get_games_list_data(search_value):
     game_list = []
     params = {
-        "key": "e8d6883d38f94755a3e56cdead8e9544",
+        "key": os.environ.get("GAME_DB_KEY"),
         "search": search_value
     }
 
@@ -135,6 +136,7 @@ new_game = Game(
 def home():
     if current_user.is_authenticated:
         user_games = Game.query.filter_by(user_id=current_user.id).order_by(Game.rating).all()
+        print(current_user.id)
         for i in range(len(user_games)):
             user_games[i].ranking = len(user_games) - i
         return render_template("index.html", all_games=user_games)
@@ -185,29 +187,33 @@ def logout():
     logout_user()
     return redirect(url_for('home'))
 
-@app.route('/edit/<int:game_id>', methods=["GET", "POST"])
+@app.route('/edit', methods=["GET", "POST"])
 @login_required
-def update(game_id):
-    game_id = game_id
+def update():
+    game_id = request.args.get("game_id")
     game = Game.query.get(game_id)
-    game_form = GameEditFull(
-        title=game.title,
-        year=game.year,
-        rating=game.rating,
-        review=game.review,
-        description=game.description,
-    )
 
-    if game_form.validate_on_submit():
-        # validate_update()
-        game.title = game_form.title.data
-        game.year = game_form.year.data
-        game.rating = game_form.rating.data
-        game.review = game_form.review.data
-        game.description = game_form.description.data
-        db.session.commit()
+    if game.user_id == current_user.id:
+        game_form = GameEditFull(
+            title=game.title,
+            year=game.year,
+            rating=game.rating,
+            review=game.review,
+            description=game.description,
+        )
 
-        return redirect(location=url_for('home'))
+        if game_form.validate_on_submit():
+            # validate_update()
+            game.title = game_form.title.data
+            game.year = game_form.year.data
+            game.rating = game_form.rating.data
+            game.review = game_form.review.data
+            game.description = game_form.description.data
+            db.session.commit()
+
+            return redirect(location=url_for('home'))
+    else:
+        return abort(403)
 
     game_id = request.form.get("game_id") or game_id
     game_to_update = db.session.get(Game, game_id)
@@ -229,14 +235,13 @@ def delete():
 @login_required
 def add_game():
     form = AddGameForm()
-    all_games = db.session.query(Game).all()
     if form.validate_on_submit():
         game_name = request.form.get("game_name")
         game_results = get_games_list_data(game_name)
         print(game_results)
     else:
         game_results = []
-    return render_template("add_game.html", form=form, game_results=game_results, all_games=all_games)
+    return render_template("add_game.html", form=form, game_results=game_results)
 
 
 @app.route("/get_game")
@@ -244,7 +249,7 @@ def add_game():
 def get_game():
     game_id = request.args.get("game_id")
     params = {
-        "key": "e8d6883d38f94755a3e56cdead8e9544",
+        "key": os.environ.get("GAME_DB_KEY"),
     }
     response = requests.get(f"https://api.rawg.io/api/games/{game_id}", params=params)
 
@@ -257,7 +262,7 @@ def get_game():
     img_background = game_data["background_image"]
 
     with app.app_context():
-        existing_game = Game.query.filter_by(title=game_name).first()
+        existing_game = Game.query.filter_by(user_id=current_user.id, title=game_name).first()
 
         if existing_game:
             return redirect(url_for("update", game_id=existing_game.id))
