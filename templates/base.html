@@ -15,6 +15,8 @@
 
   <link rel="stylesheet" href="../static/css/general.css">
   <link rel="stylesheet" href="../static/css/nav-bar.css">
+  <link rel="stylesheet" href="../static/css/queries.css">
+  
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -35,7 +37,7 @@
       </a>
     </div>
 
-    <div class="nav-right">
+    <nav class="nav-right">
       <ul class="nav-list">
         {% if not current_user.is_authenticated %}
         <li>
@@ -55,14 +57,30 @@
         <li>
           <a class="nav-btn" href="{{url_for('add_game')}}">Add Game</a>
         </li>
-        {% endif %}
+        {% endif %}    
       </ul>
-    </div>
+    </nav>
+
+    <button class="btn-mobile-nav">
+      <svg class="icon-mobile-nav" name="menu-outline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+
+      <svg class="icon-mobile-nav" name="close-outline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+    </button> 
+
   </section>
+  
+  <main>
+    {% block content %}
+    {% endblock content %}
+  </main>
 
-  {% block content %}
-  {% endblock content %}
+  <footer class="footer">
+    <p class="copyright">
+      Copyright © <span class="year"> 2024  </span> by Muntean Rares, All Rights Reserved
+    </p>
+  </footer>
 
+  <script src="../static/js/script.js"></script>
 </body>
 
 </html>

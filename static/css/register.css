@@ -1,19 +1,29 @@
 .section-register {
   display: flex;
+  margin-top: 9.6rem;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: calc(100vh - 9.6rem);
 }
 
 .register-container {
   padding: 1.2rem 2.4rem;
 }
 
+.form-top {
+  display: flex;
+  width: 85%;
+  justify-self: center;
+}
+
 .subtitle {
   font-size: 4rem;
   color: #444;
   font-weight: 700;
+  display: flex;
 
+  width: 85%;
+  justify-self: center;
   margin-bottom: 2.4rem;
 }
 
@@ -27,7 +37,9 @@
 .register-form {
   display: flex;
   flex-direction: column;
+  justify-self: center;
   gap: 2rem ;
+  width: 85%;
 }
 
 .password-input {
@@ -47,6 +59,7 @@
   background-color: rgb(247, 247, 247);
   box-shadow: 0 0 0 0.15rem rgb(238, 238, 238);
   border-radius: 3px;
+  width: 100%;
   padding: 0.6rem 1.2rem;
 }
 

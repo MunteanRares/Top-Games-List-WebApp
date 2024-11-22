@@ -4,7 +4,7 @@ from flask import Flask
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField, IntegerField, FloatField, validators
 from flask_ckeditor import CKEditorField
-from wtforms.fields.simple import EmailField
+from wtforms.fields.simple import EmailField, TextAreaField
 
 
 class AddGameForm(FlaskForm):
@@ -16,7 +16,7 @@ class GameEditFull(FlaskForm):
     year = IntegerField(label="Game Year", validators=[validators.DataRequired()])
     rating = FloatField(label="Game Rating", validators=[validators.DataRequired()])
     review = StringField(label="Game Review", validators=[validators.DataRequired()])
-    description = CKEditorField(label="Game Description")
+    description = TextAreaField(label="Game Description")
     submit = SubmitField(label="Submit")
 
 class RegisterForm(FlaskForm):

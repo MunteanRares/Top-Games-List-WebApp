@@ -1,3 +1,27 @@
+@media(max-width: 63em){
+  .hero-grid{
+    grid-template-columns: 1fr;
+  }
+
+  .game-content{
+    padding:0;
+  }
+
+  .game-list-grid{
+    grid-template-columns: 1fr;
+  }
+
+  .list-item {
+    grid-template-columns: 3fr 7fr;
+  }
+
+  .add-game-grid {
+    gap: 3.2rem;
+  }
+
+}
+
+
 @media (max-width: 54em){
   html{
     font-size: 50%;
@@ -8,18 +32,13 @@
     place-items: center;
   }
 
-  .section-game {
-    justify-content: start;
-    height: 100vh;
+  .list-item {
+    grid-template-columns: 4fr 6fr;
   }
 
   .game-card {
-    min-width: 20rem;
+    min-width: 40rem;
     max-width: 75%;
-  }
-
-  .section-hero {
-    height: 60rem;
   }
 
   .hero-grid {
@@ -39,6 +58,7 @@
   .update-description {
     width: 70%;
     justify-self: center ;
+    padding: 0;
   }
   .add-input{
     
@@ -46,24 +66,159 @@
     margin-top: 2.4rem;
     padding: 0.8rem 1.6rem;
   }
+
+  .add-game-grid {
+    justify-items: center;
+  }
 }
 
 @media(max-width: 41em){
-  html {
-    font-size: 40%;
-  }
 
   .game-description {
     padding:0 2.4rem;
   }
 
+  .list-item {
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+
+  .search-list {
+    gap: 8rem;
+  }
+
+  .img-search {
+    width: 80%;
+    grid-row: 2;
+  }
+
+  .platform-tag {
+    text-align: center;
+  }
+
+  .store-tag {
+    text-align: center;
+  }
+
+  .search-item:link,
+  .search-item:visited {
+    grid-row: 1;
+    font-size: 3.2rem;
+  }
+
   .game-content {
-    min-width: 20rem;
+    min-width: 30rem;
+  }
+
+  .section-hero {
+    height: calc(100vh - 9.6rem);
+  }
+
+  .section-game-list {
+    padding: 4.8rem;
+  }
+  
+  .section-game {
+    padding:6rem;
+  }
+
+  .nav-right {
+    display: block;
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.658);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    transform: translateY(-100%);
+    transition: all 0.3s ease-out;
+    backdrop-filter: blur(10px);
+
+    /* 1) Hide it */
+    opacity: 0;
+
+    /* 2) Make i unnaccesible to mouse and keyboard */
+    pointer-events: none;
+
+    /* 3) Hiding from screen readers */
+    visibility: hidden;
+  }
+
+  .nav-list {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+
+    justify-content: center;
+    align-items: center;
+    gap: 10rem;
+  }
+
+  .nav-link:visited,
+  .nav-link:link {
+    font-size: 4rem;
+  }
+
+  .nav-btn:visited,
+  .nav-btn:link {
+    padding: 1.2rem 2rem;
+    font-size: 4rem;
+  }
+
+  .btn-mobile-nav {
+    display: block;
+  }
+
+  .nav-open .nav-right {
+    opacity: 1;
+    transform: translateX(0%);
+    pointer-events: auto;
+    visibility: visible;
+  }
+
+  .nav-open .icon-mobile-nav[name="menu-outline"]{
+    display: none;
+  }
+
+  .nav-open .icon-mobile-nav[name="close-outline"]{
+    display: inline;
   }
 }
 
-@media(max-width: 34em){
-  html{
-    font-size:35% ;
+@media(max-width: 24em){
+  .game-card {
+    min-width: 35rem;
+  }
+
+  .nav-link:visited,
+  .nav-link:link {
+    font-size: 3.2rem;
+  }
+
+  .section-game {
+    padding: 3.2rem 1.2rem;
+  }
+
+  .update-description{
+    width: 100%;
+  }
+
+  .img-search {
+    width: 120%;
+  }
+
+  .section-game {
+    height: calc(100vh - 9.6rem);
+  }
+
+  .list-item {
+    text-align: center;
+  }
+
+  .nav-btn:visited,
+  .nav-btn:link {
+    padding: 1.2rem 2rem;
+    font-size: 3.2rem;
   }
 }

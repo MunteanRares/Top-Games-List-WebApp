@@ -13,8 +13,7 @@
   <div class="container add-game-grid game-container">
     <div class="update-content">
       <h1 class="heading-primary add-game-primary">Add a New Game to Your Collection</h1>
-      <P class="update-description">Ready to level up your list? Share your latest discovery or all-time favorite!
-        Just fill in the game name, and let the world know why it deserves a spot on your list.</P>
+      <P class="update-description">Level up your collection! Add your favorite game and explain why it belongs on your list.</P>
     </div>
 
 
@@ -28,7 +27,7 @@
             <span class="error"> - {{form.game_name.errors[0] }}</span>
             {% endif %}
           </div>
-          {{ form.game_name(size=30, class_="text-input" + (" input-error" if form.game_name.errors else "")) }}
+          {{ form.game_name(class_="text-input" + (" input-error" if form.game_name.errors else "")) }}
 
           {{ form.submit(class_="add-input add-game-btn") }}
         </div>
@@ -48,10 +47,11 @@
         {% elif game["background_image"] != None: %}
         <img class="img-search" src="{{ game['background_image'] }}" alt="">
         {% endif %}
-        <div class="game-details">
-          <a class="search-item" href="{{ url_for('get_game', game_id=game['id'], name=game['name']) }}">{{
+
+        <a class="search-item" href="{{ url_for('get_game', game_id=game['id'], name=game['name']) }}">{{
             game["name"] }}</a>
 
+        <div class="game-details">
           <div class="tags">
             {% if game["platforms"] and game["stores"] != None: %}
             <div class="platform-tag">

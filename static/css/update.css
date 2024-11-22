@@ -2,12 +2,12 @@
 /* UPDATE SECTION */
 /*********************/
 .section-update {
-  padding: 0 4.8rem;
-  height: 100vh;
+  margin-top: 9.6rem;
+  padding: 4.8rem 4.8rem;
+  height: calc(100vh - 9.6rem);
   background-image: linear-gradient(to right, #ebedf9, #fff);
   display: flex;
   justify-content: center;
-  align-items: center;
 }
 
 .update-grid {
@@ -58,8 +58,14 @@
   text-transform: uppercase;
   margin-bottom: 1.2rem;
   letter-spacing: -0.3px;
+  width: 100%;
 
   margin-bottom: 0;
+}
+
+.description-input {
+  height: 20rem;
+  resize: none;
 }
 
 .label-error {
@@ -125,22 +131,18 @@
 /* ADD GAME SECTION */
 /*********************/
 .section-game {
-  height: 70vh;
+  margin-top: 9.6rem;
+  padding: 4.8rem 12.8rem;
   background-image: linear-gradient(to right, #ebedf9, #fff);
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  justify-self: start;
 }
 
 .add-game-grid {
   display: grid;
   gap: 4.8rem;
-  justify-items: start;
-}
-
-.game-container{
-  align-content: start;
+  justify-content: start;
 }
 
 .add-game-form {
@@ -176,7 +178,7 @@
 /* SEARCH RESULT SECTION */
 /*********************/
 .section-search-list {
-  padding: 6rem 4.8rem;
+  padding: 6rem 12.8rem;
 }
 
 .search-list {
@@ -187,9 +189,11 @@
 }
 
 .img-search {
-  width: 15%;
+  width: 100%;
   box-shadow: 0 6px 8px rgba(0, 0, 0, 0.16);
   border-radius: 4px;
+  margin-bottom: 2.4rem;
+  grid-row: 1/3;
 
   transition: all 0.3s ease-out;
 }
@@ -200,9 +204,12 @@
 }
 
 .list-item {
-  display: flex;
+  display: grid;
+  align-items: center;
+  grid-template-columns: 2fr 8fr;
+  column-gap: 2.4rem;
+
   border-radius: 4px;
-  gap: 3.2rem;
 }
 
 .search-item:link,
@@ -213,6 +220,9 @@
   font-weight: 600;
   text-decoration: none;
   position: relative;
+  margin-bottom: 1.2rem;
+
+
 
   transition: all 0.3s ease-out;
 }
@@ -260,11 +270,11 @@
 .tags {
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
 }
 
 .tag {
   width: fit-content;
+  margin-bottom: 0.8rem;
   padding: 0.4rem 0.8rem;
   border-radius: 100px;
   display: inline-block;

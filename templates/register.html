@@ -19,7 +19,6 @@ Register
     </a>
 
     <p class="subtitle">Create a free account</p>
-
     <form class="register-form" action="" novalidate method="post">
       {{ form.csrf_token }}
       <div class="input-box">
@@ -30,7 +29,7 @@ Register
           {% endif %}
         </div>
 
-        {{ form.name(size=30, class_="text-input")}}
+        {{ form.name(class_="text-input")}}
       </div>
 
       <div class="input-box">
@@ -40,19 +39,19 @@ Register
             <span class="error"> - {{ form.email.errors[0] }}</span>
           {% endif %}
         </div>
-        {{ form.email(size=30, class_="text-input")}}
+        {{ form.email(class_="text-input")}}
       </div>
 
       <div class="password-input">
         <div class="input-box">
           {{form.password.label(class_="normal-label" + (" label-error" if form.password.errors else ""))}}
-          {{form.password(size=17, class_="text-input")}}
+          {{form.password(class_="text-input")}}
         </div>
 
         <div class="input-box">
           {{form.confirm_password.label(class_="normal-label" + (" label-error" if form.confirm_password.errors else
           ""))}}
-          {{form.confirm_password(size=17, class_="text-input")}}
+          {{form.confirm_password(class_="text-input")}}
         </div>
 
         {% with messages=get_flashed_messages() %}

@@ -34,7 +34,7 @@ Update Game
             </div>
 
             {{ form.title(
-            size=30, class_="text-input" + (" input-error" if form.title.errors else "")
+              class_="text-input" + (" input-error" if form.title.errors else "")
             ) }}
           </div>
 
@@ -56,14 +56,14 @@ Update Game
               {% endif %}
             </div>
             {{ form.review(
-            size=30, class_="text-input" + (" input-error" if form.review.errors else "")
+            class_="text-input" + (" input-error" if form.review.errors else "")
             ) }}
           </div>
 
           <div class="update-box">
             {{ form.rating.label(class_="normal-label" + (" label-error" if form.rating.errors else "")) }}
             {{ form.rating(
-            size=10, class_="text-input" + (" input-error" if form.rating.errors else "")
+            class_="text-input" + (" input-error" if form.rating.errors else "")
             ) }}
           </div>
         </div>
@@ -71,13 +71,10 @@ Update Game
         <div class="update-box">
           {{ form.description.label(class_="normal-label" + (" label-error" if form.description.errors else "")) }}
           {{ form.description(
-          class_="text-input" + (" input-error" if form.description.errors else "")
+          class_="description-input text-input" + (" input-error" if form.description.errors else "")
           ) }}
 
         </div>
-
-        {{ ckeditor.load() }}
-        {{ ckeditor.config(name='description', width=510) }}
 
         {{ form.submit(class_="submit-btn text-input") }}
         <input type="hidden" value="{{ game_to_update.id }}" name="id">
