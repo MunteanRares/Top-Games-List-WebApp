@@ -6,8 +6,8 @@
 
 html {
   font-size: 62.5%;
-  overflow-y: scroll;
-  overflow-x: hidden;
+  overflow-y: auto;
+
 }
 
 body {
@@ -15,7 +15,7 @@ body {
   font-weight: 400;
   line-height: 1;
   color: #fff;
-  overflow-x: hidden;
+
 }
 
 .container {
