@@ -161,6 +161,7 @@
 .add-game-btn {
   border: none;
   padding: 0.8rem;
+  text-align: center;
   background-color: #364fc7;
   color: #ebedf9;
   display: inline-flex;
