@@ -1,9 +1,5 @@
-from tokenize import String
-
-from flask import Flask
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField, IntegerField, FloatField, validators
-from flask_ckeditor import CKEditorField
 from wtforms.fields.simple import EmailField, TextAreaField
 
 

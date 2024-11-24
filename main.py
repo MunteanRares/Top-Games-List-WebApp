@@ -5,10 +5,10 @@ import os
 from flask_login import UserMixin, login_user, current_user, logout_user, login_required
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
-from numpy.ma.core import append
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import redirect
+import bleach
 from flask_ckeditor import CKEditor
 from forms import AddGameForm, GameEditFull, RegisterForm, LoginForm
 
@@ -67,7 +67,6 @@ with app.app_context():
 ###########################
 # FUNCTIONS
 ###########################
-
 def unregistered_only(func):
     @wraps(func)
     def wrapped(*args, **kwargs):
@@ -143,6 +142,7 @@ def home():
     else:
         return render_template("index.html", all_games=[])
 
+
 @app.route("/register", methods=["POST", "GET"])
 @unregistered_only
 def register():
@@ -166,6 +166,7 @@ def register():
         else:
             flash("Account already in use. Please log in instead.")
     return render_template("register.html", form=form)
+
 
 @app.route("/login", methods=["POST", "GET"])
 @unregistered_only

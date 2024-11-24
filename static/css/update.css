@@ -4,7 +4,6 @@
 .section-update {
   margin-top: 9.6rem;
   padding: 4.8rem 4.8rem;
-  height: calc(100vh - 9.6rem);
   background-image: linear-gradient(to right, #ebedf9, #fff);
   display: flex;
   justify-content: center;
@@ -19,6 +18,14 @@
 .update-form-container {
   display: flex;
   justify-content: start;
+}
+
+.text-input {
+  width: 100%;
+}
+
+.section-update {
+  padding: 6.4rem;
 }
 
 .year-input {

@@ -3,6 +3,10 @@
     grid-template-columns: 1fr;
   }
 
+  .update-grid {
+    gap: 6rem;
+  }
+
   .game-content{
     padding:0;
   }
@@ -55,11 +59,20 @@
     text-align: center;
   }
 
+  .update-content {
+    text-align: center;
+  }
+
+  .update-form-container {
+    justify-content: center;
+  }
+
   .update-description {
     width: 70%;
     justify-self: center ;
     padding: 0;
   }
+
   .add-input{
     
     margin: 0 auto;
@@ -208,10 +221,6 @@
     width: 120%;
   }
 
-  .section-game {
-    height: calc(100vh - 9.6rem);
-  }
-
   .list-item {
     text-align: center;
   }
@@ -220,5 +229,11 @@
   .nav-btn:link {
     padding: 1.2rem 2rem;
     font-size: 3.2rem;
+  }
+}
+
+@media(max-width: 20em){
+  html{
+    font-size: 45%;
   }
 }
