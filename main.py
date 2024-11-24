@@ -8,7 +8,6 @@ from flask_login import LoginManager
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import redirect
-import bleach
 from flask_ckeditor import CKEditor
 from forms import AddGameForm, GameEditFull, RegisterForm, LoginForm
 
@@ -29,7 +28,8 @@ def load_user(user_id):
 ###########################
 # CONNECT SQLALCHEMY TO DATABASE
 ###########################
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///game-database.db"
+# app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///game-database.db"
+app.config["SQLALCHEMY_DATABASE_URI"] = F"postgresql://{os.environ.get('POSTGRE_USER')}:{os.environ.get('POSTGRE_PASS')}@localhost/{os.environ.get('POSTGRE_DB')}"
 db = SQLAlchemy(app)
 
 ###########################
