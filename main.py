@@ -28,8 +28,8 @@ def load_user(user_id):
 ###########################
 # CONNECT SQLALCHEMY TO DATABASE
 ###########################
-# app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///game-database.db"
-app.config["SQLALCHEMY_DATABASE_URI"] = F"postgresql://{os.environ.get('POSTGRE_USER')}:{os.environ.get('POSTGRE_PASS')}@localhost/{os.environ.get('POSTGRE_DB')}"
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///game-database.db"
+# app.config["SQLALCHEMY_DATABASE_URI"] = F"postgresql://{os.environ.get('POSTGRE_USER')}:{os.environ.get('POSTGRE_PASS')}@localhost/{os.environ.get('POSTGRE_DB')}"
 db = SQLAlchemy(app)
 
 ###########################
