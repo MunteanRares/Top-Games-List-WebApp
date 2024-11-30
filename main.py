@@ -28,8 +28,8 @@ def load_user(user_id):
 ###########################
 # CONNECT SQLALCHEMY TO DATABASE
 ###########################
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///game-database.db"
-# app.config["SQLALCHEMY_DATABASE_URI"] = F"postgresql://{os.environ.get('POSTGRE_USER')}:{os.environ.get('POSTGRE_PASS')}@localhost/{os.environ.get('POSTGRE_DB')}"
+# app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///game-database.db"
+app.config["SQLALCHEMY_DATABASE_URI"] = F"postgresql://{os.environ.get('POSTGRE_USER')}:{os.environ.get('POSTGRE_PASS')}@localhost/{os.environ.get('POSTGRE_DB')}"
 db = SQLAlchemy(app)
 
 ###########################
@@ -40,15 +40,13 @@ class Game(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(250), nullable=False)
     year = db.Column(db.Integer, nullable=False)
-    rating = db.Column(db.Float)
-    review = db.Column(db.String(250))
-    description = db.Column(db.String(250), nullable=False)
+    short_description = db.Column(db.String(250), nullable=False)
+    long_description = db.Column(db.String(1500), nullable=False)
     img_url = db.Column(db.String(250), nullable=False)
-    ranking = db.Column(db.Integer)
+    # ranking = db.Column(db.Integer)
 
-    #MANY games for ONE user
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
-    user = relationship("User", back_populates="games")
+    #relationships
+    user_games = relationship("UserGame", back_populates="game")
 
 class User(UserMixin, db.Model):
     __tablename__ = "users"
@@ -57,10 +55,28 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(250), nullable=False, unique=True)
     password = db.Column(db.String(250), nullable=False)
 
-    #relationship
-    games = relationship("Game", back_populates="user")
+    #relationships
+    user_games = relationship("UserGame", back_populates="user")
 
-### Create to database.
+class UserGame(db.Model):
+    __tablename__ = "user_games"
+    id = db.Column(db.Integer, primary_key=True)
+
+    # Edited game for user
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    user = relationship("User", back_populates="user_games")
+
+    # MANY games for ONE user
+    game_id = db.Column(db.Integer, db.ForeignKey("games.id"))
+    game = relationship("Game", back_populates="user_games")
+
+
+    rating = db.Column(db.Float)
+    note = db.Column(db.String(250))
+
+
+
+## Create to database.
 with app.app_context():
     db.create_all()
 
@@ -91,12 +107,23 @@ def get_games_list_data(search_value):
     return game_list
 
 ### SHORTEN DESCRIPTION
-def cut_paragraph(text):
+def cut_short_paragraph(text):
     cutoff = 250
     end_position = text.rfind('.', 0, cutoff)
 
     if end_position == -1:
         shortened_text = text[:250]
+    else:
+        shortened_text = text[:end_position + 1]
+
+    return shortened_text
+
+def cut_long_paragraph(text):
+    cutoff = 1500
+    end_position = text.rfind('.', 0, cutoff)
+
+    if end_position == -1:
+        shortened_text = text[:1500]
     else:
         shortened_text = text[:end_position + 1]
 
@@ -112,21 +139,20 @@ def get_year(date):
 ###########################
 # INSERT FIRST VALUES TO 'Game'
 ###########################
-new_game = Game(
-    title="Euro Truck Simulator 2",
-    year=2012,
-    rating=9.5,
-    review="I let my girlfriend have a try at this game, she started growing chest hair.",
-    description="Travel across Europe as king of the road, a trucker who delivers important cargo across impressive"
-                " distances! With dozens of cities to explore, your endurance, skill and speed will all be pushed to"
-                " their limits. If you've got what it takes to be part of an elite trucking force, get behind the wheel"
-                " and prove it!",
-    img_url="https://upload.wikimedia.org/wikipedia/en/0/0e/Euro_Truck_Simulator_2_cover.jpg"
-)
+# new_game = Game(
+#     title="Euro Truck Simulator 2",
+#     year=2012,
+#     description="Travel across Europe as king of the road, a trucker who delivers important cargo across impressive"
+#                 " distances! With dozens of cities to explore, your endurance, skill and speed will all be pushed to"
+#                 " their limits. If you've got what it takes to be part of an elite trucking force, get behind the wheel"
+#                 " and prove it!",
+#     img_url="https://upload.wikimedia.org/wikipedia/en/0/0e/Euro_Truck_Simulator_2_cover.jpg"
+# )
 # Here we commit the changes
 # with app.app_context():
 #     db.session.add(new_game)
 #     db.session.commit()
+
 
 ###########################
 # WEBSITE ROUTES
@@ -134,10 +160,8 @@ new_game = Game(
 @app.route('/')
 def home():
     if current_user.is_authenticated:
-        user_games = Game.query.filter_by(user_id=current_user.id).order_by(Game.rating).all()
-        print(current_user.id)
-        for i in range(len(user_games)):
-            user_games[i].ranking = len(user_games) - i
+        user_games = db.session.query(Game, UserGame).join(Game, UserGame.game_id == Game.id).filter(UserGame.user_id == current_user.id).all()
+
         return render_template("index.html", all_games=user_games)
     else:
         return render_template("index.html", all_games=[])
@@ -191,32 +215,29 @@ def logout():
 @app.route('/edit', methods=["GET", "POST"])
 @login_required
 def update():
-    game_id = request.args.get("game_id")
-    game = Game.query.get(game_id)
+    id_of_game = request.args.get("game_id")
+    game = UserGame.query.filter_by(game_id=id_of_game, user_id=current_user.id).first()
+    print(game)
+    print(current_user.id)
+    print(id_of_game)
+    print(game.id)
 
     if game.user_id == current_user.id:
         game_form = GameEditFull(
-            title=game.title,
-            year=game.year,
             rating=game.rating,
-            review=game.review,
-            description=game.description,
+            review=game.note,
         )
 
         if game_form.validate_on_submit():
-            # validate_update()
-            game.title = game_form.title.data
-            game.year = game_form.year.data
             game.rating = game_form.rating.data
-            game.review = game_form.review.data
-            game.description = game_form.description.data
+            game.note = game_form.review.data
             db.session.commit()
 
             return redirect(location=url_for('home'))
     else:
         return abort(403)
 
-    game_id = request.form.get("game_id") or game_id
+    game_id = request.form.get("game_id") or id_of_game
     game_to_update = db.session.get(Game, game_id)
     return render_template("update.html", form=game_form, game_to_update=game_to_update, game=game)
 
@@ -225,7 +246,7 @@ def update():
 @login_required
 def delete():
     game_id = request.args.get("game_id")
-    game_to_del = db.session.get(Game, game_id)
+    game_to_del = UserGame.query.filter_by(game_id=game_id, user_id=current_user.id).first()
 
     db.session.delete(game_to_del)
     db.session.commit()
@@ -255,35 +276,47 @@ def get_game():
     response = requests.get(f"https://api.rawg.io/api/games/{game_id}", params=params)
 
     game_data = response.json()
-    print(game_data)
+    # print(game_data)
 
     game_name = game_data["name"]
-    game_description = cut_paragraph(game_data["description_raw"])
+    short_game_description = cut_short_paragraph(game_data["description_raw"])
+    long_game_description = cut_long_paragraph(game_data["description_raw"])
     release_date = get_year(game_data["released"])
     img_background = game_data["background_image"]
 
-    with app.app_context():
-        existing_game = Game.query.filter_by(user_id=current_user.id, title=game_name).first()
-
-        if existing_game:
-            return redirect(url_for("update", game_id=existing_game.id))
-
-    game = Game(
-        rating=0,
-        review="None",
-        title=game_name,
-        year=release_date,
-        description=game_description,
-        img_url=img_background,
-        user=current_user
-    )
-
-    with app.app_context():
+    game = Game.query.filter_by(title=game_name).first()
+    if not game:
+        game = Game(
+            title=game_name,
+            year=release_date,
+            short_description=short_game_description,
+            long_description=long_game_description,
+            img_url=img_background,
+        )
         db.session.add(game)
         db.session.commit()
-        db.session.refresh(game)
+
+    existing_personal_game = UserGame.query.filter_by(game_id=game.id, user_id=current_user.id).first()
+    if not existing_personal_game:
+        personal_game = UserGame(
+            rating = 1.0,
+            note = "Add Your Review here!",
+            user = current_user,
+            game = game
+        )
+        db.session.add(personal_game)
+        db.session.commit()
     return redirect(url_for('update', game_id=game.id))
 
+@app.route("/view-card")
+def view_card():
+    game_id = request.args.get("game_id")
+    print(game_id)
+    game = Game.query.get(game_id)
+    print(game)
+    user_game = UserGame.query.filter_by(game_id = game_id, user_id = current_user.id).first()
+    print(user_game)
+    return render_template("view_card.html", game=game, user_game=user_game)
 
 ###########################
 # RUN AND DEBUG SERVER

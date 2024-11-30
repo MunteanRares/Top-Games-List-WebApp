@@ -42,6 +42,8 @@
   color: #ebedf9;
 }
 
+
+
 /*******************/
 /* SECTION GAMES */
 /*******************/
@@ -79,7 +81,7 @@
 .game-content {
   width: 100%;
   height: 100%;
-  padding: 3.6rem;
+  padding: 1.6rem 3.2rem;
   position: absolute;
   top: 0;
   left: 0;
@@ -112,7 +114,6 @@
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
   opacity: 1;
-  filter: blur(0px);
   z-index: 2;
 }
 
@@ -161,7 +162,6 @@
 }
 
 .game-description {
-  /* text-align: center; */
   padding: 0 2.4rem;
   margin-bottom: 2.4rem;
 
@@ -173,29 +173,12 @@
 .game-buttons {
   display: flex;
   gap: 2.4rem;
+  margin-top: 2.4rem;
   justify-content: center;
 }
 
-.update-button,
-.delete-button {
-  text-decoration: none;
-}
-
-.delete-button:link,
-.delete-button:visited {
-  padding: 1.2rem 1.6rem;
-  background-color: #ce3f3f65;
-  color: white;
-  font-family: inherit;
-  font-size: 1.8em;
-  font-weight: 500;
-  border-radius: 4px;
-  box-shadow: 0 0.6rem 1.2rem rgba(0, 0, 0, 0.1);
-
-  transition: all 0.3s;
-}
-
-.delete-button:hover,
-.delete-button:active {
-  background-color: #d45555ce;
+.update-button:link,
+.update-button:visited {
+  width: 9.23rem;
+  text-align: center;
 }

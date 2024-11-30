@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}
+{% endblock title %}
+
+{% block stylesheet %}
+  <link rel="stylesheet" href="../static/css/view-card.css">
+{% endblock stylesheet %}
+
+
+{% block content %}
+  <section class="section-view-card">
+    <div class="game-image">
+      <img class="image" src="{{ game['img_url'] }}" alt="">
+  
+      <div class="game-content">
+        <div class="border">
+          <div class="effect"></div>
+          <div class="top-segment">
+            <h2 class="game-name">{{ game['title'] }}</h2>
+
+            <div class="game-buttons">
+              <a class="btn" href="{{ url_for('update') }}">Update Rating</a>
+              <a class="delete-button" href="{{ url_for('delete') }}">Remove</a>
+            </div>
+          </div>
+        
+
+        <div class="middle-segment">
+          <div class="personal-review">
+            <div>
+              <h3 class="heading-tetriary game-review">Your Notes &amp; Rating:</h3>
+              <span class="note"> <span class="game-rating">{{ user_game['rating'] }}⭐ - "{{ user_game['note'] }}"</span></span>
+            </div>
+          </div>
+
+          <h3 class="heading-tetriary"> About </h3>
+          <div class="about">
+            <p class="description">{{ game['long_description'] }}</p>
+          </div>
+
+          <h3 class="heading-tetriary">Release Date</h3>
+          <span class="game-year">{{ game['year'] }}</span>
+        </div>
+      </div>
+    </div>
+
+  </section>
+{% endblock content %}

@@ -50,6 +50,10 @@
     text-align: center;
   }
 
+  .hero-description {
+    justify-self: center;
+  }
+
   .update-grid {
     grid-template-columns: 1fr;
   }

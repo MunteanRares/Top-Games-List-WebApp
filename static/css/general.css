@@ -7,8 +7,8 @@
 
 html {
   font-size: 62.5%;
-  overflow-y: auto;
-
+  overflow-y: scroll;
+  background: linear-gradient(135deg, #f3f8ff, #e9eefc);
 }
 
 body {
@@ -69,6 +69,7 @@ body {
 .btn,
 .btn:link,
 .btn:visited {
+  display: inline-block;
   padding: 1.2rem 1.6rem;
   background-color: #364fc7;
   text-decoration: none;
@@ -88,6 +89,16 @@ body {
   background-color: #4a61cd;
 }
 
+.view-button:link,
+.view-button:visited {
+  background-color:#2f9e44 ;
+}
+
+.view-button:active,
+.view-button:hover {
+  background-color: #40c057;
+}
+
 .footer {
   display: flex;
   flex-direction: column;
@@ -102,4 +113,50 @@ body {
   font-size: 1.2rem;
   text-align: center;
 
+}
+
+.delete-button:link,
+.delete-button:visited {
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+  padding: 1.2rem 1.6rem;
+  background-color: #fa525256;
+  color: white;
+  /* width: 9.23rem; */
+  font-family: inherit;
+  font-size: 1.8em;
+  font-weight: 500;
+  border-radius: 4px;
+  box-shadow: 0 0.6rem 1.2rem rgba(0, 0, 0, 0.1);
+
+  transition: all 0.3s;
+}
+
+.delete-button:hover,
+.delete-button:active {
+  background-color: #fa5252be;
+}
+
+/***********/
+/* SCROLLBAR */
+/***********/
+
+::-webkit-scrollbar {
+  width: 8px;
+  background-color: #f1f1f1; 
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #364ec7; 
+  border: 2px solid rgba(0, 0, 0, 0); 
+}
+
+::-webkit-scrollbar-track {
+  background-color: #f7f7f7; 
+
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #4a61cd; 
 }

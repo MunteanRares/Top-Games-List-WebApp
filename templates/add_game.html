@@ -10,14 +10,14 @@
 
 {% block content %}
 <section class="section-game">
-  <div class="container add-game-grid game-container">
+  <div class="container add-game-grid">
     <div class="update-content">
       <h1 class="heading-primary add-game-primary">Add a New Game to Your Collection</h1>
-      <P class="update-description">Level up your collection! Add your favorite game and explain why it belongs on your list.</P>
+      <P class="add-game-description">Level up your collection! Add your favorite game and explain why it belongs on your list.</P>
     </div>
 
 
-    <div class="update-form-container">
+    <div class="add-game-form-container">
       <form action="{{ url_for('add_game') }}" novalidate class="update-form game-form" method="POST">
         {{ form.csrf_token }}
         <div class="add-game-form">

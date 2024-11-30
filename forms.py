@@ -8,11 +8,8 @@ class AddGameForm(FlaskForm):
     submit = SubmitField(label="Search")
 
 class GameEditFull(FlaskForm):
-    title = StringField(label="Game Title", validators=[validators.DataRequired()])
-    year = IntegerField(label="Game Year", validators=[validators.DataRequired()])
     rating = FloatField(label="Game Rating", validators=[validators.DataRequired()])
     review = StringField(label="Game Review", validators=[validators.DataRequired()])
-    description = TextAreaField(label="Game Description")
     submit = SubmitField(label="Submit")
 
 class RegisterForm(FlaskForm):

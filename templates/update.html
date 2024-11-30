@@ -11,41 +11,18 @@ Update Game
 
 {% block content %}
 <section class="section-update">
-  <div class="container update-grid">
+  <div class="update-grid">
     <div class="update-content">
       <h1 class="heading-primary">Customize {{ game_to_update["title"] }}</h1>
       <p class="update-description">
-        Refine your thoughts on {{game_to_update["title"]}}. Update your review, adjust your
+        Refine your thoughts on {{game_to_update["title"]}}. <br> Update your review, adjust your
         rating, and see how your perspective has evolved.
       </p>
     </div>
 
     <div class="update-form-container">
-      <form class="update-form" action="{{ url_for('update', game_id=game.id) }}" novalidate method="post">
+      <form class="update-form" action="{{ url_for('update', game_id=game.game_id) }}" novalidate method="post">
         {{ form.csrf_token }}
-        <div class="game-title-year">
-          <div class="update-box">
-            <div class="in-case-error">
-              {{ form.title.label(class_="normal-label" + (" label-error" if form.title.errors else ""))}}
-              {% if form.title.errors %}
-              <span class="error"> - {{form.title.errors[0] }}</span>
-              {% endif %}
-            </div>
-
-            {{ form.title(
-              class_="text-input" + (" input-error" if form.title.errors else "")
-            ) }}
-          </div>
-
-          <div class="update-box">
-            {{ form.year.label(class_="normal-label" + (" label-error" if form.year.errors else "")) }}
-            {{ form.year(
-            class_="year-input text-input" + (" input-error" if form.year.errors else "")
-            ) }}
-
-          </div>
-        </div>
-
         <div class="rating-review">
           <div class="update-box">
             <div class="in-case-error">
@@ -65,14 +42,6 @@ Update Game
             class_="text-input" + (" input-error" if form.rating.errors else "")
             ) }}
           </div>
-        </div>
-
-        <div class="update-box">
-          {{ form.description.label(class_="normal-label" + (" label-error" if form.description.errors else "")) }}
-          {{ form.description(
-          class_="description-input text-input" + (" input-error" if form.description.errors else "")
-          )}}
-
         </div>
 
         {{ form.submit(class_="submit-btn text-input") }}
