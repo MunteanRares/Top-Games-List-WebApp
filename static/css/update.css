@@ -2,7 +2,7 @@
 /* UPDATE SECTION */
 /*********************/
 .section-update {
-  margin-top: 9.6rem;
+  margin-top: 8rem;
   padding: 4.8rem 12.8rem;
   /* background-image: linear-gradient(to right, #ebedf9, #fff); */
   display: flex;
@@ -147,7 +147,7 @@
 /* ADD GAME SECTION */
 /*********************/
 .section-game {
-  margin-top: 9.6rem;
+  margin-top: 8rem;
   padding: 4.8rem 12.8rem;
   display: flex;
   flex-direction: column;

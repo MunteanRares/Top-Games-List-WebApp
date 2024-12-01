@@ -29,10 +29,14 @@
 -Primary:
 #364fc7
 
+accent:
+#2f3a69
+
 -Tints:
 #4a61cd
 #ebedf9
 #edf2ff
+#d4d5e0
 
 -Accents:
 #ce3f3f
@@ -40,6 +44,9 @@
 #94d82d
 -Grays:
 #444
+
+nghtmode:
+#1E1E1E
 
 --- 03 IMAGES
 

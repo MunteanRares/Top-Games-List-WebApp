@@ -9,7 +9,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import redirect
 from flask_ckeditor import CKEditor
-from forms import AddGameForm, GameEditFull, RegisterForm, LoginForm
+from forms import AddGameForm, GameEditFull, RegisterForm, LoginForm, CommentForm
 
 ###########################
 # CREATE APP SERVER
@@ -54,6 +54,7 @@ class User(UserMixin, db.Model):
     name = db.Column(db.String(250), nullable=False)
     email = db.Column(db.String(250), nullable=False, unique=True)
     password = db.Column(db.String(250), nullable=False)
+    avatar = db.Column(db.String(250), nullable=False)
 
     #relationships
     user_games = relationship("UserGame", back_populates="user")
@@ -69,7 +70,6 @@ class UserGame(db.Model):
     # MANY games for ONE user
     game_id = db.Column(db.Integer, db.ForeignKey("games.id"))
     game = relationship("Game", back_populates="user_games")
-
 
     rating = db.Column(db.Float)
     note = db.Column(db.String(250))
@@ -119,11 +119,11 @@ def cut_short_paragraph(text):
     return shortened_text
 
 def cut_long_paragraph(text):
-    cutoff = 1500
+    cutoff = 1000
     end_position = text.rfind('.', 0, cutoff)
 
     if end_position == -1:
-        shortened_text = text[:1500]
+        shortened_text = text[:1000]
     else:
         shortened_text = text[:end_position + 1]
 
@@ -134,7 +134,6 @@ def get_year(date):
     temp = date.split("-")
     year = temp[0]
     return year
-
 
 ###########################
 # INSERT FIRST VALUES TO 'Game'
@@ -175,11 +174,15 @@ def register():
         email = request.form.get("email")
         if User.query.filter_by(email=email).first() is None:
             if request.form.get("password") == request.form.get("confirm_password"):
+                name = request.form.get("name")
                 hash_pas = generate_password_hash(password=request.form.get("password"),method="scrypt",salt_length=16)
+                avatar_src = f"https://ui-avatars.com/api/?name={name}&background=random"
+
                 new_user = User(
-                    name=request.form.get("name"),
+                    name=name,
                     email=email,
                     password=hash_pas,
+                    avatar=avatar_src
                 )
                 db.session.add(new_user)
                 db.session.commit()
@@ -206,21 +209,23 @@ def login():
             flash("Invalid Credentials")
     return render_template("login.html", form=form)
 
+
 @app.route("/logout")
 @login_required
 def logout():
     logout_user()
     return redirect(url_for('home'))
 
+
 @app.route('/edit', methods=["GET", "POST"])
 @login_required
 def update():
     id_of_game = request.args.get("game_id")
     game = UserGame.query.filter_by(game_id=id_of_game, user_id=current_user.id).first()
-    print(game)
-    print(current_user.id)
-    print(id_of_game)
-    print(game.id)
+    # print(game)
+    # print(current_user.id)
+    # print(id_of_game)
+    # print(game.id)
 
     if game.user_id == current_user.id:
         game_form = GameEditFull(
@@ -233,7 +238,8 @@ def update():
             game.note = game_form.review.data
             db.session.commit()
 
-            return redirect(location=url_for('home'))
+            return redirect(url_for("view_card", game_id=id_of_game))
+            # return redirect(location=url_for('home'))
     else:
         return abort(403)
 
@@ -308,15 +314,19 @@ def get_game():
         db.session.commit()
     return redirect(url_for('update', game_id=game.id))
 
-@app.route("/view-card")
+@app.route("/view-card", methods=["GET", "POST"])
 def view_card():
     game_id = request.args.get("game_id")
     print(game_id)
     game = Game.query.get(game_id)
     print(game)
     user_game = UserGame.query.filter_by(game_id = game_id, user_id = current_user.id).first()
-    print(user_game)
-    return render_template("view_card.html", game=game, user_game=user_game)
+    form = CommentForm()
+    if form.validate_on_submit():
+        
+        return redirect(url_for("view_card", game_id=game_id))
+
+    return render_template("view_card.html", game=game, user_game=user_game, form=form)
 
 ###########################
 # RUN AND DEBUG SERVER

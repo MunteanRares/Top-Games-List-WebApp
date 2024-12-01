@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
+{{ game['title'] }}
 {% endblock title %}
 
 {% block stylesheet %}
@@ -12,25 +13,25 @@
   <section class="section-view-card">
     <div class="game-image">
       <img class="image" src="{{ game['img_url'] }}" alt="">
+      <img class="image-blur-1" src="{{ game['img_url'] }}" alt="">  
+    
   
-      <div class="game-content">
-        <div class="border">
-          <div class="effect"></div>
-          <div class="top-segment">
-            <h2 class="game-name">{{ game['title'] }}</h2>
+      <div class="game-view-content">
+        <div class="effect"></div>
+        <div class="top-segment">
+          <h2 class="game-name">{{ game['title'] }}</h2>
 
-            <div class="game-buttons">
-              <a class="btn" href="{{ url_for('update') }}">Update Rating</a>
-              <a class="delete-button" href="{{ url_for('delete') }}">Remove</a>
-            </div>
+          <div class="game-buttons">
+            <a class="update-btn" href="{{ url_for('update', game_id=game.id) }}">Update Rating</a>
           </div>
+        </div>
         
 
         <div class="middle-segment">
           <div class="personal-review">
             <div>
               <h3 class="heading-tetriary game-review">Your Notes &amp; Rating:</h3>
-              <span class="note"> <span class="game-rating">{{ user_game['rating'] }}⭐ - "{{ user_game['note'] }}"</span></span>
+              <span class="note"> <span class="game-rating">{{ user_game['rating'] }}⭐ - {{ user_game['note'] }}</span></span>
             </div>
           </div>
 
@@ -42,8 +43,146 @@
           <h3 class="heading-tetriary">Release Date</h3>
           <span class="game-year">{{ game['year'] }}</span>
         </div>
+
+        <a class="delete-button" href="{{ url_for('delete', game_id=game.id) }}">Remove From Collection</a> 
       </div>
     </div>
+  </section>
 
+  <section class="section-comment">
+    <div class="rating-container">
+      <div class="reviews">
+        <h2 class="comment-title">Reviews</h2>
+      </div>
+
+      <div class="ovr-rating">
+        <div class="rating-num">
+          <span>4.0</span>
+          <ul class="star-container">
+            <li>
+              <i class="fa-solid fa-star colored fa-2xs"></i>
+            </li>
+
+            <li>
+              <i class="fa-solid fa-star colored fa-2xs"></i>
+            </li>
+
+            <li>
+              <i class="fa-solid fa-star colored fa-2xs"></i>
+            </li>
+
+            <li>
+              <i class="fa-solid fa-star colored fa-2xs"></i>
+            </li>
+
+            <li>
+              <i class="fa-solid fa-star greyed fa-2xs"></i>
+            </li>
+          </ul>
+          <p class="total-ratings">36 reviews</p>
+
+        </div>
+
+        <div class="bar-container">
+          <div class="rating-background">
+            <div class="rating-bar"></div>
+          </div>
+
+          <div class="rating-background">
+            <div class="rating-bar"></div>
+          </div>
+
+          <div class="rating-background">
+            <div class="rating-bar"></div>
+          </div>
+
+          <div class="rating-background">
+            <div class="rating-bar"></div>
+          </div>
+
+          <div class="rating-background">
+            <div class="rating-bar"></div>
+          </div>  
+        </div>
+
+        <div>
+          <ul class="rating-list">
+            <li class="rating-list-item">
+              <p>5.0</p>
+              <span class="rating-list-number"> 140 reviews</span>
+            </li>
+
+            <li class="rating-list-item">
+              <p>4.0</p>
+              <span class="rating-list-number"> 6 reviews</span>
+            </li>
+
+            <li class="rating-list-item">
+              <p>3.0</p>
+              <span class="rating-list-number"> 3 reviews</span>
+            </li>
+
+            <li class="rating-list-item">
+              <p>2.0</p>
+              <span class="rating-list-number"> 0 reviews</span>
+            </li>
+
+            <li class="rating-list-item">
+              <p>1.0</p>
+              <span class="rating-list-number"> 0 reviews</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <form class="review-form" action="{{ url_for('view_card', game_id=game.id) }}" novalidate method="post">
+        {{ form.csrf_token }}
+        <div class="write-comment">
+          <div class="star-rating">
+            {{ form.comment.label(class_="comment-label") }}
+            <div class="stars">
+              {% for i in range(1, 6)|reverse %}
+                <input type="radio" id="star{{ i }}" name="rating" value="{{ i }}">
+                <label for="star{{ i }}" aria-hidden="true">
+                  <i class="fa-solid fa-star"></i>
+                </label>
+              {% endfor %}
+            </div>
+          </div>
+
+          {{ form.comment(class_="comment-input") }}
+          {{ form.submit(class_="comment-submit") }}
+        </div>
+
+        
+      </form>
+
+      <div class="comment">
+        <div class="user-segment">
+          <div class="user-info">
+            <div class="user-info-left">
+              <img class="user-avatar" src="{{current_user.avatar}}" alt=""> 
+              <p class="user-name">Muntean Rares</p>
+              <span class="user-date">01 December</span>
+            </div>
+
+            <div class="user-info-right">
+              <span class="user-rating">5.0</span>
+              <div>
+                <i class="fa-solid fa-star colored"></i>
+                <i class="fa-solid fa-star colored"></i>
+                <i class="fa-solid fa-star colored"></i>
+                <i class="fa-solid fa-star colored"></i>
+                <i class="fa-solid fa-star greyed"></i>
+              </div>
+            </div>
+          </div>
+
+          <div class="user-comment">
+            <p class="user-paragraph">I would love to play this shit again!</p>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 {% endblock content %}

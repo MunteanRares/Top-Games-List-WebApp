@@ -9,6 +9,7 @@ html {
   font-size: 62.5%;
   overflow-y: scroll;
   background: linear-gradient(135deg, #f3f8ff, #e9eefc);
+  background: #fff;
 }
 
 body {
@@ -104,10 +105,11 @@ body {
   flex-direction: column;
   width: 100%;
   margin-top: auto;
+  z-index: 99999;
 }
 
 .container-footer {
-  background-color: #364fc7;
+  background-color: #2f3a69;
   padding: 0.4rem;
   max-height: 2rem ;
   font-size: 1.2rem;
@@ -123,7 +125,6 @@ body {
   padding: 1.2rem 1.6rem;
   background-color: #fa525256;
   color: white;
-  /* width: 9.23rem; */
   font-family: inherit;
   font-size: 1.8em;
   font-weight: 500;
@@ -148,7 +149,7 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #364ec7; 
+  background-color: #364fc7; 
   border: 2px solid rgba(0, 0, 0, 0); 
 }
 
