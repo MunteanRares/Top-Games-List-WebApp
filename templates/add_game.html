@@ -70,6 +70,11 @@
             {% endif %}
           </div>
         </div>
+
+        <div class="game-add-buttons-cont">
+          <a class="btn" href="{{ url_for('get_game', game_id=game.id, name=game.name) }}">Add to Library</a>
+          <a class="btn wishlist-button" href="{{ url_for('add_game_to_wishlist', game_id=game.id, name=game.name) }}">Wishlist</a>
+        </div>
       </li>
       {% endfor %}
     </ul>

@@ -185,6 +185,10 @@
   background-color: #4a61cd;
 }
 
+.add-game-btn:active {
+  scale: 0.9;
+}
+
 .add-game-form {
   justify-content: center ;
 }
@@ -222,9 +226,10 @@
 .list-item {
   display: grid;
   align-items: center;
-  grid-template-columns: 2fr 8fr;
+  grid-template-columns: 2fr 6fr 2fr;
   column-gap: 2.4rem;
-
+  padding-bottom: 1.2rem;
+  border-bottom: 2px solid rgb(212, 213, 224, 0.7);
   border-radius: 4px;
 }
 
@@ -238,9 +243,23 @@
   position: relative;
   margin-bottom: 1.2rem;
 
-
-
   transition: all 0.3s ease-out;
+}
+
+.wishlist-button:link,
+.wishlist-button:visited {
+  background: none;
+  color: #444;
+  box-shadow: none;
+}
+
+.wishlist-button:hover {
+  background-color: #364fc7;
+  color: #edf2ff;
+} 
+
+.wishlist-button:active {
+  scale: 0.9;
 }
 
 .list-item:hover .search-item:visited,
@@ -280,12 +299,21 @@
 .game-details {
   display: flex;
   flex-direction: column;
+  grid-row: 2;
   gap: 1.4rem;
 }
 
 .tags {
   display: flex;
   flex-direction: column;
+}
+
+.game-add-buttons-cont {
+  display: flex;
+  justify-content: end;
+  align-self: end;
+  gap: 2.4rem;
+  grid-row: 2;
 }
 
 .tag {

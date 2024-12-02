@@ -1,7 +1,7 @@
 .section-nav {
   position: fixed;
   width: 100%;
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.912);
   height: 8rem;
 
   top: 0;
@@ -52,7 +52,7 @@
   display: none;
   z-index: 9999;
   border:none;
-  background-color: #fff  ;
+  background-color: #fff;
 }
 
 .nav-right {
@@ -85,6 +85,7 @@
 
 .nav-link:link,
 .nav-link:visited {
+  display: inline-block;
   color: #444;
   text-decoration: none;
   font-weight: 600;
@@ -93,14 +94,18 @@
   transition: all 0.3s;
 }
 
-.nav-link:active,
 .nav-link:hover {
   color: #364fc7;
 }
 
+.nav-link:active{
+  scale: 0.9;
+}
+
 .nav-btn:link,
 .nav-btn:visited {
-  padding: 0.8rem 1.2rem;
+  display: inline-block;
+  padding: 1.2rem 1.6rem;
   background-color: #364fc7;
   text-decoration: none;
   color: #edf2ff;
@@ -114,7 +119,10 @@
   transition: all 0.3s;
 }
 
-.nav-btn:active,
 .nav-btn:hover {
   background-color: #4a61cd;
+}
+
+.nav-btn:active {
+  scale: 0.9;
 }

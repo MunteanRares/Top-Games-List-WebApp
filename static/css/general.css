@@ -71,7 +71,7 @@ body {
 .btn:link,
 .btn:visited {
   display: inline-block;
-  padding: 1.2rem 1.6rem;
+  padding: 1.4rem 1.8rem;
   background-color: #364fc7;
   text-decoration: none;
   color: #edf2ff;
@@ -85,9 +85,12 @@ body {
   transition: all 0.3s;
 }
 
-.btn:active,
 .btn:hover {
   background-color: #4a61cd;
+}
+
+.btn:active {
+  scale: 0.9;
 }
 
 .view-button:link,
@@ -95,9 +98,12 @@ body {
   background-color:#2f9e44 ;
 }
 
-.view-button:active,
 .view-button:hover {
   background-color: #40c057;
+}
+
+.view-button:active {
+  scale: 0.9;
 }
 
 .footer {
@@ -122,21 +128,24 @@ body {
   text-decoration: none;
   display: inline-block;
   text-align: center;
-  padding: 1.2rem 1.6rem;
+  padding: 1.4rem 1.8rem;
   background-color: #fa525256;
   color: white;
   font-family: inherit;
   font-size: 1.8em;
-  font-weight: 500;
+  font-weight: 600;
   border-radius: 4px;
   box-shadow: 0 0.6rem 1.2rem rgba(0, 0, 0, 0.1);
 
   transition: all 0.3s;
 }
 
-.delete-button:hover,
-.delete-button:active {
+.delete-button:hover {
   background-color: #fa5252be;
+}
+
+.delete-button:active {
+  scale: 0.9;
 }
 
 /***********/

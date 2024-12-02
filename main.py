@@ -1,84 +1,71 @@
 import requests
-from flask import Flask, render_template, request, url_for, flash, abort
+from debugpy.common.timestamp import current
+from flask import render_template, request, url_for, flash, abort
 from functools import wraps
 import os
-from flask_login import UserMixin, login_user, current_user, logout_user, login_required
-from flask_sqlalchemy import SQLAlchemy
+from flask_login import login_user, current_user, logout_user, login_required
 from flask_login import LoginManager
-from sqlalchemy.orm import Mapped, mapped_column, relationship
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import redirect
-from flask_ckeditor import CKEditor
 from forms import AddGameForm, GameEditFull, RegisterForm, LoginForm, CommentForm
+from tables import User, Game, UserGame, db, app, UserReview, Wishlist
+import datetime
+from sqlalchemy import desc, text, Table
 
 ###########################
 # CREATE APP SERVER
 ###########################
-app = Flask(__name__)
-app.secret_key = os.environ['SECRET_APP_KEY']
-ckeditor = CKEditor(app)
-
 login_manager = LoginManager()
 login_manager.init_app(app)
 
+
+###########################
+# GET HOLD OF CURRENT USER
+###########################
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(user_id)
 
-###########################
-# CONNECT SQLALCHEMY TO DATABASE
-###########################
-# app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///game-database.db"
-app.config["SQLALCHEMY_DATABASE_URI"] = F"postgresql://{os.environ.get('POSTGRE_USER')}:{os.environ.get('POSTGRE_PASS')}@localhost/{os.environ.get('POSTGRE_DB')}"
-db = SQLAlchemy(app)
 
 ###########################
-# CREATE FIRST TABLE named 'Games'
+# CREATE DATABASE WITH TABLES
 ###########################
-class Game(db.Model):
-    __tablename__ = "games"
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(250), nullable=False)
-    year = db.Column(db.Integer, nullable=False)
-    short_description = db.Column(db.String(250), nullable=False)
-    long_description = db.Column(db.String(1500), nullable=False)
-    img_url = db.Column(db.String(250), nullable=False)
-    # ranking = db.Column(db.Integer)
-
-    #relationships
-    user_games = relationship("UserGame", back_populates="game")
-
-class User(UserMixin, db.Model):
-    __tablename__ = "users"
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(250), nullable=False)
-    email = db.Column(db.String(250), nullable=False, unique=True)
-    password = db.Column(db.String(250), nullable=False)
-    avatar = db.Column(db.String(250), nullable=False)
-
-    #relationships
-    user_games = relationship("UserGame", back_populates="user")
-
-class UserGame(db.Model):
-    __tablename__ = "user_games"
-    id = db.Column(db.Integer, primary_key=True)
-
-    # Edited game for user
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
-    user = relationship("User", back_populates="user_games")
-
-    # MANY games for ONE user
-    game_id = db.Column(db.Integer, db.ForeignKey("games.id"))
-    game = relationship("Game", back_populates="user_games")
-
-    rating = db.Column(db.Float)
-    note = db.Column(db.String(250))
-
-
-
-## Create to database.
 with app.app_context():
     db.create_all()
+
+    # db.session.execute(text("""
+    #     CREATE VIEW game_review_count AS
+    #     SELECT
+    #         games.title AS title,
+    #         (SELECT COUNT (*)
+    #         FROM user_reviews
+    #         WHERE user_reviews.game_id = games.id) AS total_star_reviews,
+    #         (SELECT COUNT (*)
+    #         FROM user_reviews
+    #         WHERE user_reviews.rating = 5
+    #         AND user_reviews.game_id = games.id) AS five_star_reviews,
+    #         (SELECT COUNT (*)
+    #         FROM user_reviews
+    #         WHERE user_reviews.rating = 4
+    #         AND user_reviews.game_id = games.id) AS four_star_reviews,
+    #         (SELECT COUNT (*)
+    #         FROM user_reviews
+    #         WHERE user_reviews.rating = 3
+    #         AND user_reviews.game_id = games.id) AS three_star_reviews,
+    #         (SELECT COUNT (*)
+    #         FROM user_reviews
+    #         WHERE user_reviews.rating = 2
+    #         AND user_reviews.game_id = games.id) AS two_star_reviews,
+    #         (SELECT COUNT (*)
+    #         FROM user_reviews
+    #         WHERE user_reviews.rating = 1
+    #         AND user_reviews.game_id = games.id) AS one_star_reviews
+    #     FROM games
+    # """))
+    # db.session.commit()
+
+    game_review_count = Table('game_review_count', db.metadata, autoload_with=db.engine)
+
 
 ###########################
 # FUNCTIONS
@@ -91,7 +78,6 @@ def unregistered_only(func):
         return func(*args, **kwargs)
     return wrapped
 
-### REQUEST GAMES
 def get_games_list_data(search_value):
     game_list = []
     params = {
@@ -106,7 +92,6 @@ def get_games_list_data(search_value):
         game_list.append(game)
     return game_list
 
-### SHORTEN DESCRIPTION
 def cut_short_paragraph(text):
     cutoff = 250
     end_position = text.rfind('.', 0, cutoff)
@@ -129,28 +114,11 @@ def cut_long_paragraph(text):
 
     return shortened_text
 
-### YEAR FROM DATE
 def get_year(date):
     temp = date.split("-")
     year = temp[0]
     return year
 
-###########################
-# INSERT FIRST VALUES TO 'Game'
-###########################
-# new_game = Game(
-#     title="Euro Truck Simulator 2",
-#     year=2012,
-#     description="Travel across Europe as king of the road, a trucker who delivers important cargo across impressive"
-#                 " distances! With dozens of cities to explore, your endurance, skill and speed will all be pushed to"
-#                 " their limits. If you've got what it takes to be part of an elite trucking force, get behind the wheel"
-#                 " and prove it!",
-#     img_url="https://upload.wikimedia.org/wikipedia/en/0/0e/Euro_Truck_Simulator_2_cover.jpg"
-# )
-# Here we commit the changes
-# with app.app_context():
-#     db.session.add(new_game)
-#     db.session.commit()
 
 
 ###########################
@@ -258,6 +226,15 @@ def delete():
     db.session.commit()
     return redirect(url_for('home'))
 
+@app.route("/delete-wishlist")
+@login_required
+def delete_wishlist():
+    game_id = request.args.get("game_id")
+    game_to_del = Wishlist.query.get(game_id)
+
+    db.session.delete(game_to_del)
+    db.session.commit()
+    return redirect(url_for('wishlist'))
 
 @app.route("/add-game", methods=["GET", "POST"])
 @login_required
@@ -280,9 +257,7 @@ def get_game():
         "key": os.environ.get("GAME_DB_KEY"),
     }
     response = requests.get(f"https://api.rawg.io/api/games/{game_id}", params=params)
-
     game_data = response.json()
-    # print(game_data)
 
     game_name = game_data["name"]
     short_game_description = cut_short_paragraph(game_data["description_raw"])
@@ -314,19 +289,83 @@ def get_game():
         db.session.commit()
     return redirect(url_for('update', game_id=game.id))
 
+
+@app.route("/add_game_to_wishlist")
+@login_required
+def add_game_to_wishlist():
+    game_id = request.args.get("game_id")
+    params = {
+        "key": os.environ.get("GAME_DB_KEY"),
+    }
+    response = requests.get(f"https://api.rawg.io/api/games/{game_id}", params=params)
+    game_data = response.json()
+
+    game_name = game_data["name"]
+    short_game_description = cut_short_paragraph(game_data["description_raw"])
+    long_game_description = cut_long_paragraph(game_data["description_raw"])
+    release_date = get_year(game_data["released"])
+    img_background = game_data["background_image"]
+
+    game = Game.query.filter_by(title=game_name).first()
+    if not game:
+        game = Game(
+            title=game_name,
+            year=release_date,
+            short_description=short_game_description,
+            long_description=long_game_description,
+            img_url=img_background,
+        )
+        db.session.add(game)
+        db.session.commit()
+    existing_wishlist_game = Wishlist.query.filter_by(game_id=game.id, user_id=current_user.id).first()
+    if not existing_wishlist_game:
+        new_wishlist = Wishlist(
+            game=game,
+            user=current_user
+        )
+        db.session.add(new_wishlist)
+        db.session.commit()
+    return redirect(url_for("add_game"))
+
 @app.route("/view-card", methods=["GET", "POST"])
+@login_required
 def view_card():
     game_id = request.args.get("game_id")
     print(game_id)
     game = Game.query.get(game_id)
     print(game)
     user_game = UserGame.query.filter_by(game_id = game_id, user_id = current_user.id).first()
+    game_total_reviews = db.session.query(game_review_count).filter_by(title=game.title).first()
+
     form = CommentForm()
     if form.validate_on_submit():
-        
+        rating = request.form.get("rating")
+        review_text = request.form.get("comment")
+
+        new_user_review = UserReview(
+            user = current_user,
+            game = game,
+            rating = rating,
+            review = review_text,
+            date= datetime.datetime.now(datetime.timezone.utc)
+        )
+
+        db.session.add(new_user_review)
+        db.session.commit()
         return redirect(url_for("view_card", game_id=game_id))
 
-    return render_template("view_card.html", game=game, user_game=user_game, form=form)
+    user_reviews = UserReview.query.order_by(desc(UserReview.date)).all()
+    return render_template("view_card.html", game=game, user_game=user_game, form=form, user_reviews=user_reviews, game_total_reviews=game_total_reviews)
+
+@app.route("/wishlist")
+@login_required
+def wishlist():
+    all_wishlist = Wishlist.query.filter_by(user_id=current_user.id).all()
+    return render_template("wishlist.html", all_games=all_wishlist)
+
+
+
+
 
 ###########################
 # RUN AND DEBUG SERVER

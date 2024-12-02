@@ -1,6 +1,3 @@
-from cProfile import label
-
-from flask import Flask
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField, IntegerField, FloatField, validators
 from wtforms.fields.choices import RadioField
@@ -31,4 +28,4 @@ class LoginForm(FlaskForm):
 class CommentForm(FlaskForm):
     comment = TextAreaField(label="Write your Review", validators=[validators.DataRequired()], render_kw={"placeholder": "Share your thoughts about this game..."})
     rating = RadioField(choices=[(1, '1'), (2, '2'), (3, '3'), (4, '4'), (5, '5')], validators=[validators.InputRequired()], coerce=int)
-    submit = SubmitField("Comment")
+    submit = SubmitField("Add Review")

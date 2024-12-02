@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Wishlist
+{% endblock title %}  Wishlist
+
+{% block stylesheet %}
+<link rel="stylesheet" href="../static/css/styles.css">
+{% endblock stylesheet %} 
+
+
+{% block content %}
+{% if not all_games == []: %}
+<section class="section-game-list">
+  <div class="container game-list-grid">
+     {% for wishlist in all_games: %}
+      <div class="game-card">
+        <div class="game-image">
+          <img src="{{ wishlist.game['img_url'] }}" alt="" />
+        </div>
+
+        <div class="game-content">
+          <h2 class="game-title">
+            {{ wishlist.game['title']}}
+            <span class="game-year">({{ wishlist.game['year'] }})</span>
+          </h2>
+
+          <div class="game-description">
+            <span>{{ wishlist.game['short_description'] | safe() }}</span>
+          </div>
+          <div class="game-buttons">
+            <a class="btn update-button view-button" href="{{url_for('view_card', game_id=wishlist.game.id)}}">View</a>
+            <a class="delete-button" href="{{ url_for('delete_wishlist', game_id=wishlist.id) }}">Delete</a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+
+
+
+
+
+
+
+
+
+  
+{% endblock content %}  
+
+
+
+
+
+

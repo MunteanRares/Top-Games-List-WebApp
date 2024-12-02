@@ -66,12 +66,13 @@
   box-shadow: 0 0 3.2rem rgba(0, 0, 0, 0.1);
   border-radius: 6px;
   position: relative;
+  
 
   min-width: 40rem;
   /* max-width: 100%; */
   min-height: 34rem;
 
-  height: fit-content;
+  max-height: 35rem;
   display: flex;
   align-items: center;
 

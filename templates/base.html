@@ -9,11 +9,11 @@
   <meta name="description" content="" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-
+  <link rel="stylesheet" href="../static/css/general.css">
   {% block stylesheet %}
   {% endblock stylesheet%}
 
-  <link rel="stylesheet" href="../static/css/general.css">
+  
   <link rel="stylesheet" href="../static/css/nav-bar.css">
   <link rel="stylesheet" href="../static/css/queries.css">
   
@@ -53,6 +53,10 @@
         {% if current_user.is_authenticated %}
         <li>
           <a class="nav-link" href="{{ url_for('logout') }}">Log Out</a>
+        </li>
+
+        <li>
+          <a class="nav-link" href="{{ url_for('wishlist') }}">Wishlist</a>
         </li>
 
         <li>

@@ -4,7 +4,8 @@
 }
 
 .image {
-  width: 100%;
+  max-width: 100%;
+  max-height: 105rem;
   grid-row-start: 1;
   grid-row-end: 9;
   grid-column-start: 2;
@@ -16,9 +17,9 @@
 }
 
 .image-blur-1 {
-  width: 100%;  
-  filter: blur(4px);
-  /* scale: 1.05; */
+  width: 100%;
+  max-height: 100rem;
+  filter: blur(10px);
   grid-row-start: 1;
   grid-row-end: 9;
   grid-column-start: 1;
@@ -40,6 +41,8 @@
 .game-view-content {
   position: relative;
   justify-self: center;
+  display: flex;
+  flex-direction: column;
 
   background: linear-gradient(
     rgb(47, 58, 105, 0.5) 0%,
@@ -66,6 +69,7 @@
 .effect {
   position: absolute;
   margin-bottom: 8rem;
+  /* max-height: 55rem; */
 
   border-radius: 10px;
   top: 0;
@@ -84,19 +88,22 @@
     text-decoration: none;
     color: #edf2ff;
     font-family: inherit;
-    font-size: 2em;
+    font-size: 1.8rem;
     font-weight: 600;
     border-radius: 4px;
     box-shadow: 0 0.6rem 1.2rem rgba(0, 0, 0, 0.1);
     cursor: pointer;
-    transition: all 0.3s;
+    transition: all 0.2s;
 
     margin-right: 1.2rem;
 }
 
-.update-btn:hover,
-.update-btn:active {
+.update-btn:hover {
   background-color: #5e72d2;
+}
+
+.update-btn:active {
+  scale: 0.9;
 }
 
 .game-buttons {
@@ -112,7 +119,6 @@
 .top-segment {
   display: flex;
   width: 60%;
-  justify-content: space-between;
   gap: 3.2rem;
   align-items: center;
   margin-top: 2rem;
@@ -242,7 +248,7 @@
   text-decoration: none;
   color: #edf2ff;
   font-family: inherit;
-  font-size: 1.8em;
+  font-size: 1.8rem;
   font-weight: 600;
   border-radius: 4px;
   box-shadow: 0 0.6rem 1.2rem rgba(0, 0, 0, 0.1);
@@ -250,22 +256,17 @@
   transition: all 0.3s;
 }
 
-
 .comment-submit:hover {
   background-color: #4a61cd;
+}
+
+.comment-submit:active {
+  scale: 0.9;
 }
 
 .stars input{
   display: none;
 }
-
-
-
-
-
-
-
-
 
 
 .total-ratings{
