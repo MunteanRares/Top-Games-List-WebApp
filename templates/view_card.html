@@ -232,7 +232,8 @@
         </form>
       {%endif%}
 
-      {% if not game.game_reviews == [] %}
+
+      {# {% if game.game_reviews != [] %} #}
       <div class="comment">
         {% for review in game.game_reviews %}
           <div class="user-segment">
@@ -263,7 +264,7 @@
           </div>
         {% endfor %}
       </div>
-      {% endif %}
+      {# {% endif %} #}
     </div>
   </section>
 {% endblock content %}

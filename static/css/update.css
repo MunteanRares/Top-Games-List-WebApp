@@ -233,8 +233,7 @@
   border-radius: 4px;
 }
 
-.search-item:link,
-.search-item:visited {
+.search-item {
   width: fit-content;
   font-size: 2.6rem;
   color: #1b2864;
@@ -262,17 +261,12 @@
   scale: 0.9;
 }
 
-.list-item:hover .search-item:visited,
-.search-item:link {
-  color:#4a61cd;
-}
-
 .search-item::after{
   content: "";
   position: absolute;
   bottom: 0;
   transform: translateY(150%);
-  background-color: #4a61cd;
+  background-color: #1b2864;
   border-radius: 1px;
   left: 0;
   height: 2px;

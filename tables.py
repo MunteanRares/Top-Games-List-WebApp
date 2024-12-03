@@ -52,6 +52,7 @@ class User(UserMixin, db.Model):
     user_games = relationship("UserGame", back_populates="user")
     user_reviews = relationship("UserReview", back_populates="user")
     user_wishlist = relationship("Wishlist", back_populates="user")
+    user_logs = relationship("Log", back_populates="user")
 
 class Wishlist(db.Model):
     __tablename__ = "wishlist"
@@ -94,6 +95,18 @@ class UserReview(db.Model):
     review = db.Column(db.String(450))
     date = db.Column(db.DateTime, default=datetime.now(timezone.utc))
 
+class Log(db.Model):
+    __tablename__ = "logs"
+    id = db.Column(db.Integer, primary_key=True)
+    ### RELATIONSHIPS
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    user = relationship("User", back_populates="user_logs")
+
+    timestamp = db.Column(db.DateTime, nullable=False)
+    table_name = db.Column(db.String(250))
+    action = db.Column(db.String(250))
+    record = db.Column(db.String(250))
+    record_id = db.Column(db.Integer)
 
 
 

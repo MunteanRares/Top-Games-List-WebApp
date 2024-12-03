@@ -48,8 +48,7 @@
         <img class="img-search" src="{{ game['background_image'] }}" alt="">
         {% endif %}
 
-        <a class="search-item" href="{{ url_for('get_game', game_id=game['id'], name=game['name']) }}">{{
-            game["name"] }}</a>
+        <h3 class="search-item">{{ game["name"] }}</h3>
 
         <div class="game-details">
           <div class="tags">
