@@ -393,7 +393,7 @@ def delete_wishlist():
     # db.session.commit()
     sql_query = text("""
     DELETE FROM wishlist
-    WHERE id = :game_id
+    WHERE game_id = :game_id
     """)
 
     deleted_game = db.session.execute(text("""
@@ -408,9 +408,9 @@ def delete_wishlist():
     """), {
         'timestamp': datetime.datetime.now(datetime.timezone.utc),
         'record_id': deleted_game.id,
-        'record': deleted_game.id,
+        'record': deleted_game.title,
         'user_id': current_user.id,
-        'table_name': "user_games",
+        'table_name': "user_wishlist",
         'action': "Wishlist Deleted"
     })
 
@@ -599,14 +599,14 @@ def add_game_to_wishlist():
             'user_id': current_user.id
         })
 
-        gamed=db.session.execute(text("""
+        game=db.session.execute(text("""
         SELECT * FROM wishlist WHERE game_id = :game_id AND user_id = :user_id
         """), {'game_id': game.id, 'user_id': current_user.id}).fetchone()
 
         added_game = db.session.execute(text("""
         SELECT * FROM games WHERE id = :game_id
         """), {
-            'game_id': gamed.id
+            'game_id': game.id
         }).fetchone()
 
         print(added_game)
@@ -617,7 +617,7 @@ def add_game_to_wishlist():
         """), {
             'timestamp': datetime.datetime.now(datetime.timezone.utc),
             'record_id': added_game.id,
-            'record': added_game.id,
+            'record': added_game.title,
             'user_id': current_user.id,
             'table_name': "user_wishlist",
             'action': "Wishlist Added"
