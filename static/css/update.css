@@ -226,7 +226,7 @@
 .list-item {
   display: grid;
   align-items: center;
-  grid-template-columns: 2fr 6fr 2fr;
+  grid-template-columns: 2fr 4fr 4fr;
   column-gap: 2.4rem;
   padding-bottom: 1.2rem;
   border-bottom: 2px solid rgb(212, 213, 224, 0.7);
