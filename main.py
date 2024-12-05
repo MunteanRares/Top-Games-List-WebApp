@@ -1,11 +1,9 @@
 import requests
-from debugpy.common.timestamp import current
 from flask import render_template, request, url_for, flash, abort
 from functools import wraps
 import os
 from flask_login import login_user, current_user, logout_user, login_required
 from flask_login import LoginManager
-from scipy.linalg import pinvh
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import redirect
 from forms import AddGameForm, GameEditFull, RegisterForm, LoginForm, CommentForm
@@ -64,7 +62,7 @@ with app.app_context():
     #         AND user_reviews.game_id = games.id) AS one_star_reviews
     #     FROM games
     # """))
-    # db.session.commit()
+    db.session.commit()
     ############################################## HERE IT ENDS ##############################################
     game_review_count = Table('game_review_count', db.metadata, autoload_with=db.engine)
 
@@ -644,6 +642,13 @@ def view_card():
     game_total_reviews = db.session.execute(text("""
     SELECT * FROM game_review_count WHERE title = :title
         """), {'title': game.title}).fetchone()
+
+    result = db.session.execute(text("""
+        SELECT games, user_games
+        FROM games
+        JOIN user_games ON games.id = user_games.game_id
+        WHERE user_games.game_id = :game_id AND user_games.user_id = :user_id
+    """), {'game_id': game_id, 'user_id': current_user.id}).fetchone()
 
     form = CommentForm()
     if form.validate_on_submit():
