@@ -604,10 +604,12 @@ def add_game_to_wishlist():
         """), {'game_id': game.id, 'user_id': current_user.id}).fetchone()
 
         added_game = db.session.execute(text("""
-                        SELECT * FROM user_games WHERE game_id = :game_id
-                        """), {
+        SELECT * FROM games WHERE id = :game_id
+        """), {
             'game_id': gamed.id
         }).fetchone()
+
+        print(added_game)
 
         db.session.execute(text("""
         INSERT INTO logs (timestamp, table_name, action, record_id, record, user_id)
@@ -617,7 +619,7 @@ def add_game_to_wishlist():
             'record_id': added_game.id,
             'record': added_game.id,
             'user_id': current_user.id,
-            'table_name': "user_games",
+            'table_name': "user_wishlist",
             'action': "Wishlist Added"
         })
         db.session.commit()
