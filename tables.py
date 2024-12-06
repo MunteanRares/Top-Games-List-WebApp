@@ -3,7 +3,7 @@ from flask import Flask
 import os
 from flask_login import UserMixin
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import ForeignKey
+from sqlalchemy import ForeignKey, text
 from sqlalchemy.orm import relationship
 
 ###########################
@@ -108,5 +108,60 @@ class Log(db.Model):
     record = db.Column(db.String(250))
     record_id = db.Column(db.Integer)
 
-
+# with app.app_context():
+#     db.session.execute(text("""
+#     CREATE TABLE games (
+#         id SERIAL PRIMARY KEY,
+#         title VARCHAR(250) NOT NULL,
+#         year INTEGER NOT NULL,
+#         short_description VARCHAR(250) NOT NULL,
+#         long_description VARCHAR(1500) NOT NULL,
+#         img_url VARCHAR(250) NOT NULL);
+#     """))
+#
+#     db.session.execute(text("""
+#     CREATE TABLE users (
+#         id SERIAL PRIMARY KEY,
+#         name VARCHAR(250) NOT NULL,
+#         email VARCHAR(250) NOT NULL UNIQUE,
+#         password VARCHAR(250) NOT NULL,
+#         avatar VARCHAR(250) NOT NULL);
+#     """))
+#
+#     db.session.execute(text("""
+#     CREATE TABLE wishlist (
+#         id SERIAL PRIMARY KEY,
+#         user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+#         game_id INTEGER REFERENCES games(id) ON DELETE CASCADE);
+#     """))
+#
+#     db.session.execute(text("""
+#     CREATE TABLE user_games (
+#         id SERIAL PRIMARY KEY,
+#         user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+#         game_id INTEGER REFERENCES games(id) ON DELETE CASCADE,
+#         rating FLOAT,
+#         note VARCHAR(250));
+#     """))
+#
+#     db.session.execute(text("""
+#     CREATE TABLE user_reviews (
+#         id SERIAL PRIMARY KEY,
+#         user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+#         game_id INTEGER REFERENCES games(id) ON DELETE CASCADE,
+#         rating FLOAT,
+#         review VARCHAR(450),
+#         date TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP);
+#     """))
+#
+#     db.session.execute(text("""
+#     CREATE TABLE logs (
+#         id SERIAL PRIMARY KEY,
+#         user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+#         timestamp TIMESTAMPTZ NOT NULL,
+#         table_name VARCHAR(250),
+#         action VARCHAR(250),
+#         record VARCHAR(250),
+#         record_id INTEGER);
+#     """))
 
